@@ -11,7 +11,6 @@ class DBaseRecord
 
     private:
         bool isRecordDeleted = false;
-
 };
 
 #endif // DBASERECORD_H
