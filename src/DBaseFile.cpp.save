@@ -45,31 +45,30 @@ bool DBaseFile::openFile(const std::string fileName)
 			//Read file header. Bit by bit. Spec of DBF files available at:
 			//https://en.wikipedia.org/wiki/.dbf
 			switch(i){
-				case 0:{
-					bitset<8> firstBitset = ToBits(currentByte);
+			case 0:{
+				bitset<8> firstBitset = ToBits(currentByte);
 
-					versionNr[0] = firstBitset[0];
-					versionNr[1] = firstBitset[1];
-					firstBitset[3] == 1 ? memoFilePresent = true : memoFilePresent = false;
-					firstBitset[4] == 1 ? sqlFilePresent = true : sqlFilePresent = false;
-					firstBitset[5] == 1 ? sqlFilePresent = true : sqlFilePresent = false;
-					firstBitset[6] == 1 ? sqlFilePresent = true : sqlFilePresent = false;
-					firstBitset[6] == 1 ? anyMemoFilePresent = true : anyMemoFilePresent = false;
-					break;
-				}
-				case 1:{	//Last opened: year
-					fileLastUpdated.tm_year = ((int)*currentByte + 100);
-					break;
-				}case 2:{	//Last opened: month
-					fileLastUpdated.tm_mon = (((int)*currentByte) - 1);
-					break;
-				}case 3:{	//Last opened: day
-					fileLastUpdated.tm_mday = (int)*currentByte;
-					break;
-				}case 4: case 5: case 6: case 7:{
-					numRecordsInDB |= *currentByte;
-					break;
-				}
+				versionNr[0] = firstBitset[0];
+				versionNr[1] = firstBitset[1];
+				firstBitset[3] == 1 ? memoFilePresent = true : memoFilePresent = false;
+				firstBitset[4] == 1 ? sqlFilePresent = true : sqlFilePresent = false;
+				firstBitset[5] == 1 ? sqlFilePresent = true : sqlFilePresent = false;
+				firstBitset[6] == 1 ? sqlFilePresent = true : sqlFilePresent = false;
+				firstBitset[6] == 1 ? anyMemoFilePresent = true : anyMemoFilePresent = false;
+				break;
+			}
+			case 1:{	//Last opened: year
+				fileLastUpdated.tm_year = ((int)*currentByte + 100);
+				break;
+			}case 2:{	//Last opened: month
+				fileLastUpdated.tm_mon = (((int)*currentByte) - 1);
+				break;
+			}case 3:		//Last opened: day
+				fileLastUpdated.tm_mday = (int)*currentByte;
+				break;
+			}case 4: case 5: case 6: case 7:{
+				
+                break;
 			}
 
 			i++;
@@ -83,7 +82,6 @@ bool DBaseFile::openFile(const std::string fileName)
 		sqlFilePresent ? cout << "SQL present!"  : cout << "SQL not present!" << endl;
 		anyMemoFilePresent ? cout << "Any memo present!"  : cout << "Any memo not present!" << endl;
 		cout << "Last updated: " << ctime(&lastUpdated) << endl;
-		cout << "Number of records: " << (int)numRecordsInDB << endl;
 
 	}catch(const std::runtime_error& e){
 		cout << "Exeption opening file: " << e.what() << endl;

@@ -6,8 +6,8 @@ using namespace std;
 int main()
 {
     DBaseFile dbf;
-    dbf.open("../res/somefile.dbf");
+    //See SHBrowseForFolder, GetOpenFileName
+    dbf.openFile("./test/ADRESSEN.dbf");
 
-    cout << "Hello world!" << endl;
     return 0;
 }

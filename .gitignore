@@ -49,3 +49,5 @@ Temporary Items
 *.exe
 *.lib
 bin/*
+*.dbf
+test/*
