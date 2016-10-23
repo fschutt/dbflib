@@ -42,14 +42,15 @@ class DBaseFile
         bool productionMDX = false;         //BYTE 28 0x01 = production .mdx available, else not
                                             //BYTE 30-31:0, ignore
 											//BYTE 64-67:0, ignore
-		std::vector<DBaseFieldDescArray> fieldDesc;	//BYTE 68-n Field Descriptor Array, 48 bytes each
+		std::vector<DBaseFieldDescArray> fieldDescriptors;	//BYTE 68-n Field Descriptor Array, 48 bytes each
                                             //BYTE n+1: 0x0D (13) field descriptor terminator
                                             //BYTE n+2 start of the field properties
 
 		bool hasStructuralCDX = false;
 		bool hasMemoField = false;
 		bool isDatabase =  false;
-		std::string codePageMark;
+		uint8_t fieldDescArrayNum = 0;
+		uint8_t codePageMark;
 };
 
 #endif // DBASEFILE_H

@@ -21,7 +21,7 @@
 	<iostream>
 	"DBaseFile.h"
 
-1477262382 d:\development\dbflib\include\dbasefile.h
+1477268074 d:\development\dbflib\include\dbasefile.h
 	<string>
 	<vector>
 	<stdint.h>
@@ -37,23 +37,26 @@
 
 1477176123 d:\development\dbflib\include\dbasefield.h
 
-1477262012 source:d:\development\dbflib\src\dbasefile.cpp
+1477267639 source:d:\development\dbflib\src\dbasefile.cpp
 	<iostream>
 	<fstream>
 	<stdexcept>
 	<bitset>
 	<ctime>
+	<iomanip>
 	"DBaseFile.h"
 	"DBaseFieldDescArray.h"
 
 1477176123 source:d:\development\dbflib\src\dbaserecord.cpp
 	"DBaseRecord.h"
 
-1477249239 source:d:\development\dbflib\src\dbasefielddescarray.cpp
+1477267207 source:d:\development\dbflib\src\dbasefielddescarray.cpp
 	"DBaseFieldDescArray.h"
+	<iostream>
 
-1477251907 d:\development\dbflib\include\dbasefielddescarray.h
+1477267214 d:\development\dbflib\include\dbasefielddescarray.h
 	<stdint.h>
+	<string>
 
 1477249267 source:d:\development\dbflib\src\dbasefieldproperty.cpp
 	"DBaseFieldProperty.h"

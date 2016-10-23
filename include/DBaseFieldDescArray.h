@@ -1,12 +1,14 @@
 #ifndef DBASEFIELDDESCARRAY_H
 #define DBASEFIELDDESCARRAY_H
 #include <stdint.h>
+#include <string>
 
 class DBaseFieldDescArray
 {
 	public:
 		DBaseFieldDescArray();
 		~DBaseFieldDescArray();
+		DBaseFieldDescArray(std::string& rawData);
 
 	private:
 		char fieldName[32];

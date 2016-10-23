@@ -10,7 +10,7 @@ DBaseFieldDescArray::DBaseFieldDescArray()
 
 DBaseFieldDescArray::DBaseFieldDescArray(std::string& rawData)
 {
-	cout << rawData << endl;
+	cout << *rawData << endl;
 }
 
 DBaseFieldDescArray::~DBaseFieldDescArray()

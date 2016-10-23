@@ -18,7 +18,7 @@ bitset<8> DBaseFile::ToBits(char* byte){return bitset<8>(*byte);}
 bool DBaseFile::openFile(const std::string fileName)
 {
 	fstream iFile;
-	//iFile.exceptions(ifstream::failbit | ifstream::badbit);
+	const unsigned int blockSize = 32;
 
 	try{
 		iFile.open(fileName.c_str(), ios::binary | ios::in);
@@ -28,9 +28,9 @@ bool DBaseFile::openFile(const std::string fileName)
 
 		//Temporary variables
 		char* currentByte = new char[1];
+		char fieldDescArray[blockSize-1];
 		unsigned int i = 0;
 		struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0};
-		char fieldDescArray[31];
 
 		while(!iFile.eof()){
 			//Read 1 byte at a time
@@ -38,7 +38,7 @@ bool DBaseFile::openFile(const std::string fileName)
 			//Reached end of table file header, exit loop
 			if(*currentByte == 0x0D){break;}
 
-			if(i < 32){
+			if(i < blockSize){
 				//Read file header bit by bit. Spec of DBF files available at:
 				//http://www.dbf2002.com/dbf-file-format.html
 
@@ -105,66 +105,66 @@ bool DBaseFile::openFile(const std::string fileName)
 						if(bit28[1]){hasMemoField = true;};
 						if(bit28[2]){isDatabase = true;};
 					}case 29:{
-						codePageMark = *currentByte;
-						cout << hex << *currentByte << endl;
+						codePageMark = (uint8_t)*currentByte;
 					}
 				}
 
-			}else if(i > 32){
-				fieldDescArray[((i-32) % 32)] = *currentByte;
-				if((i-32) % 32 == 0){
-					cout << fieldDescArray << endl;
+			}else if(i >= blockSize){
+				fieldDescArray[((i-blockSize) % blockSize)] = *currentByte;
+				if((i-blockSize) % blockSize == blockSize-1){
+					//One block is full
+					string curFieldDesc(fieldDescArray);
+					fieldDescriptors.push_back(DBaseFieldDescArray(curFieldDesc));
 				}
 			}
-
 			i++;
 		}//end read header loop
 
+		const int endOfHeader = i;
 		//Test: get buffer of 32-bit chars
 		iFile.seekg(0, iFile.end);
-		int j = iFile.tellg();
-		iFile.seekg(i, iFile.beg);
+		int fileSizeBytes = iFile.tellg();
+		iFile.seekg(endOfHeader, iFile.beg);
 
 		//How many fields (columns) are there (always fixed width of 32 bytes, beginning at byte 32)
-		//DO NOT BELIEVE the "official" documentation here. dBase III files do not have a
-		int fieldDescArrayNum = ((i-32) / 32);
-		if(((i-32) % 32) != 0){
+		//DO NOT BELIEVE the "official" documentation here. dBase III files do not have a 48-byte block size,
+		//but a 32-bit (at least on dBase III files)
+		fieldDescArrayNum = ((endOfHeader-blockSize) / blockSize);
+		if(((endOfHeader-blockSize) % blockSize) != 0){
 			throw runtime_error("Field descriptors do not line up with header byte alignment!");
 		}
 
 		//Read field properties structure
-//		for(unsigned int k = 64; k <= i; k= k+48){
-//			cout << "Here comes the header at: " << k << endl;
-//		}
+		for(unsigned int k = blockSize; k <= i; k=(k+blockSize)){
+			cout << "Here comes the header at: " << k << endl;
+		}
 
 		//Postfix: convert fileLastUpdated to lastUpdated time type
 		lastUpdated = mktime(&fileLastUpdated);
 
 		///DEBUG STATEMENTS BEGIN
 			cout << fileType << endl;
-
-			cout << "Header with length " << i << " bytes contains " << fieldDescArrayNum << " field descriptor arrays!"  << endl;
+			cout << "Header with length " << endOfHeader << " bytes contains " << fieldDescArrayNum << " field descriptor arrays!"  << endl;
 
 			cout << "Has memo field:\t\t\t\t";
 			cout << (hasMemoField ? "YES" : "NO") << endl;
-
 			cout << "Has structural .cdx file:\t\t";
 			cout << (hasStructuralCDX ? "YES" : "NO") << endl;
-
 			cout << "File is a database:\t\t\t";
 			cout << (isDatabase ? "YES" : "NO") << endl;
-
 			cout << "SQL file is present:\t\t\t";
 			cout << (sqlFilePresent ? "YES" : "NO") << endl;
-
 			cout << "Any memo file present:\t\t\t";
 			cout << (anyMemoFilePresent ? "YES" : "NO") << endl;
+			cout << "Has code page mark:\t\t";
+			cout << ((codePageMark != 0) ? "YES" : "NO") << endl;
 
-			cout << "Last updated:\t\t\t\t" << ctime(&lastUpdated) << endl;
+			cout << "Last updated:\t\t\t\t" << ctime(&lastUpdated);
 			cout << "Number of records:\t\t\t" << (int)numRecordsInDB << endl;
 			cout << "Number of bytes in header:\t\t" << (int)numBytesInHeader << endl;
 			cout << "Number of bytes per record:\t\t" << (int)numBytesInRecord << endl;
-			cout << "Code page mark:\t\t" << hex << codePageMark << endl;
+
+			//cout << "Code page mark:\t\t" << int(codePageMark) << endl;
 		///DEBUG STATEMENTS END
 
 	}catch(const std::runtime_error& e){
