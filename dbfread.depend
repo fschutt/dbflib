@@ -37,7 +37,7 @@
 
 1477176123 d:\development\dbflib\include\dbasefield.h
 
-1477267639 source:d:\development\dbflib\src\dbasefile.cpp
+1477344654 source:d:\development\dbflib\src\dbasefile.cpp
 	<iostream>
 	<fstream>
 	<stdexcept>
@@ -50,11 +50,13 @@
 1477176123 source:d:\development\dbflib\src\dbaserecord.cpp
 	"DBaseRecord.h"
 
-1477267207 source:d:\development\dbflib\src\dbasefielddescarray.cpp
+1477346835 source:d:\development\dbflib\src\dbasefielddescarray.cpp
 	"DBaseFieldDescArray.h"
 	<iostream>
+	<string>
+	<cstring>
 
-1477267214 d:\development\dbflib\include\dbasefielddescarray.h
+1477344709 d:\development\dbflib\include\dbasefielddescarray.h
 	<stdint.h>
 	<string>
 

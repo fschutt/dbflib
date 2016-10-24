@@ -113,8 +113,7 @@ bool DBaseFile::openFile(const std::string fileName)
 				fieldDescArray[((i-blockSize) % blockSize)] = *currentByte;
 				if((i-blockSize) % blockSize == blockSize-1){
 					//One block is full
-					string curFieldDesc(fieldDescArray);
-					fieldDescriptors.push_back(DBaseFieldDescArray(curFieldDesc));
+					fieldDescriptors.push_back(DBaseFieldDescArray(fieldDescArray));
 				}
 			}
 			i++;
@@ -135,14 +134,15 @@ bool DBaseFile::openFile(const std::string fileName)
 		}
 
 		//Read field properties structure
-		for(unsigned int k = blockSize; k <= i; k=(k+blockSize)){
-			cout << "Here comes the header at: " << k << endl;
-		}
+//		for(unsigned int k = blockSize; k <= i; k=(k+blockSize)){
+//			cout << "Here comes the header at: " << k << endl;
+//		}
 
 		//Postfix: convert fileLastUpdated to lastUpdated time type
 		lastUpdated = mktime(&fileLastUpdated);
 
 		///DEBUG STATEMENTS BEGIN
+			cout << endl;
 			cout << fileType << endl;
 			cout << "Header with length " << endOfHeader << " bytes contains " << fieldDescArrayNum << " field descriptor arrays!"  << endl;
 
@@ -156,7 +156,7 @@ bool DBaseFile::openFile(const std::string fileName)
 			cout << (sqlFilePresent ? "YES" : "NO") << endl;
 			cout << "Any memo file present:\t\t\t";
 			cout << (anyMemoFilePresent ? "YES" : "NO") << endl;
-			cout << "Has code page mark:\t\t";
+			cout << "Has code page mark:\t\t\t";
 			cout << ((codePageMark != 0) ? "YES" : "NO") << endl;
 
 			cout << "Last updated:\t\t\t\t" << ctime(&lastUpdated);

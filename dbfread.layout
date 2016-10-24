@@ -4,28 +4,29 @@
 	<ActiveTarget name="Debug" />
 	<File name="include\DBaseField.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="95" topLine="0" />
+			<Cursor1 position="708" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\DBaseFieldDescArray.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\DBaseFile.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="218" topLine="0" />
+			<Cursor1 position="4782" topLine="93" />
 		</Cursor>
 	</File>
-	<File name="include\DBaseFieldDescArray.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\DBaseFieldDescArray.cpp" open="1" top="0" tabpos="1" split="2" active="1" splitpos="687" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1748" topLine="40" />
+			<Cursor2 position="0" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="include\DBaseFieldDescArray.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="232" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\DBaseFile.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-4" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2388" topLine="0" />
+			<Cursor1 position="209" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\DBaseFile.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4608" topLine="99" />
-		</Cursor>
-	</File>
-	<EditorTabsLayout layout="0a338fe0580d401300012e1600000002=0;dbfread:src\DBaseFieldDescArray.cpp,1;dbfread:include\DBaseFieldDescArray.h,2;dbfread:include\DBaseFile.h,*3;dbfread:src\DBaseFile.cpp@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=834;besth=370;minw=834;minh=370;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0a338fe0580d401300012e1600000002;caption=;state=2098172;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=200;besth=200;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,0,0)=202|" />
+	<EditorTabsLayout layout="0a224910580e6fcd0014d9e100000002=0;dbfread:src\DBaseFieldDescArray.cpp,1;dbfread:src\DBaseFile.cpp,*2;dbfread:main.cpp@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=364;besth=451;minw=364;minh=451;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0a224910580e6fcd0014d9e100000002;caption=;state=2098172;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=200;besth=200;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,0,0)=202|" />
 </CodeBlocks_layout_file>

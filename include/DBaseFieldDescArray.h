@@ -8,7 +8,7 @@ class DBaseFieldDescArray
 	public:
 		DBaseFieldDescArray();
 		~DBaseFieldDescArray();
-		DBaseFieldDescArray(std::string& rawData);
+		DBaseFieldDescArray(char rawData[31]);
 
 	private:
 		char fieldName[32];
