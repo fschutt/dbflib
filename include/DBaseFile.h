@@ -6,22 +6,23 @@
 #include <stdint.h>
 #include <bitset>
 #include <ctime>
+#include <exception>
+#include <stdexcept>
+
 #include "DBaseRecord.h"
 #include "DBaseFieldDescArray.h"
 
 class DBaseFile
 {
     public:
-        DBaseFile();
-        ~DBaseFile();
-
         bool openFile(const std::string fileName);
-
-    protected:
 
     private:
     	//Helper function: converts char to bitset
     	std::bitset<8> ToBits(char* byte);
+        //File contents
+		std::string m_rawData = "";
+		const unsigned int blockSize = 32;
         //--------------------------------------------------
         //Level 5 DOS Header for dBase III - dBase VII files
         //--------------------------------------------------
@@ -51,6 +52,31 @@ class DBaseFile
 		bool isDatabase =  false;
 		uint8_t fieldDescArrayNum = 0;
 		uint8_t codePageMark;
+
+		//helper function
+		std::string getFileContents(std::ifstream& iFile);
 };
+
+//Exceptions
+//no memory available on system
+class noMemoryAvailableEx : public std::runtime_error{};
+
+//file could not be read
+class fileNotFoundEx : public std::runtime_error{};
+
+//header is not a calculatable, misaligned bytes
+class unexpectedHeaderEndEx : public std::runtime_error{
+	int m_byteHeaderFailed = 0;
+	bool m_isFoxBaseHeader = false;
+};
+
+//blockSize is too short or too long, calculate expected byte layout
+class unexpectedBlockSize	: public unexpectedHeaderEndEx{
+	int m_blockSizePrev;
+	int calculateNextBlockSize(int prev, int totalStringSize, ...);
+};
+
+class badFileEx : public std::runtime_error{};
+class incompleteTransactionEx : public badFileEx{};
 
 #endif // DBASEFILE_H

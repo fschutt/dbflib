@@ -4,26 +4,32 @@
 #include <bitset>
 #include <ctime>
 #include <iomanip>
+#include <sstream>
+
 #include "DBaseFile.h"
 #include "DBaseFieldDescArray.h"
 
 using namespace std;
 
-DBaseFile::DBaseFile(){}
-DBaseFile::~DBaseFile(){}
-//Helper function: convert byte to bitset
-bitset<8> DBaseFile::ToBits(char* byte){return bitset<8>(*byte);}
+/** \brief Constructs dBase structure from given file.
+ *  \param Name of the dBase file
+ *  \return True if succeded. Otherwise throws exception
+ */
+bool DBaseFile::openFile(const std::string fileName){
 
-//Open and read dBase File into memory
-bool DBaseFile::openFile(const std::string fileName)
-{
-	fstream iFile;
-	const unsigned int blockSize = 32;
+	ifstream iFile;
 
 	try{
 		iFile.open(fileName.c_str(), ios::binary | ios::in);
-		if(!iFile){
-			throw std::runtime_error("File not found.");
+
+		if(!iFile){ throw fileNotFoundEx("File not found."); };
+
+		//Read file contents into memory
+		m_rawData = getFileContents(iFile);
+
+		//Loop through file
+		for(unsigned int i = 0; i <= m_rawData.size(); i++){
+
 		}
 
 		//Temporary variables
@@ -32,6 +38,7 @@ bool DBaseFile::openFile(const std::string fileName)
 		unsigned int i = 0;
 		struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0};
 
+		for()
 		while(!iFile.eof()){
 			//Read 1 byte at a time
 			iFile.read(currentByte, 1);
@@ -179,3 +186,31 @@ bool DBaseFile::openFile(const std::string fileName)
     return true;
 }
 
+/** \brief Helper function to safely get
+ *
+ * \param Input File to get File from
+ * \throw unexpectedHeaderEx
+ * \throw noMemoryAvailableEx
+ * \return File contents as std::string
+ */
+std::string DBaseFile::getFileContents(ifstream& iFile){
+	std::stringstream tempContentsFileStream = "";
+	try{
+		if(iFile.peek() == std::ifstream::traits_type::eof()){
+			throw unexpectedHeaderEndEx();
+		}
+
+		tempContentsFileStream::exceptions(std::ios::failbit);
+		//operator << returns an ostream&, but in reality it's a stringstream&
+		tempContentsFileStream << iFile.rdbuf();
+
+		if(!(tempContentsFileStream.good())){
+			throw noMemoryAvailableEx();
+		}
+	}
+
+	return tempContentsFileStream.str();
+}
+
+//Helper function: convert byte to bitset
+bitset<8> DBaseFile::ToBits(char* byte){return bitset<8>(*byte);}
