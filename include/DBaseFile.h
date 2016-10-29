@@ -15,14 +15,20 @@
 class DBaseFile
 {
     public:
-        bool openFile(const std::string fileName);
+        bool openFile(const std::string fileName);              //Open file and get contents
+		void stat();                                            //Output debug information
 
     private:
+		std::string getFileContents(std::ifstream& iFile);              //Read file contents safely into std::string
+        int calculateNextBlockSize(int prev, int totalStringSize, ...); //On failed block size, calculate next
+
     	//Helper function: converts char to bitset
-    	std::bitset<8> ToBits(char* byte);
+    	std::bitset<8> ToBits(const char& byte);
         //File contents
 		std::string m_rawData = "";
-		const unsigned int blockSize = 32;
+		int fileSizeBytes = 0;
+		unsigned int blockSize = 32;        //max be 16 or 32 or 48 Byte
+
         //--------------------------------------------------
         //Level 5 DOS Header for dBase III - dBase VII files
         //--------------------------------------------------
@@ -43,40 +49,82 @@ class DBaseFile
         bool productionMDX = false;         //BYTE 28 0x01 = production .mdx available, else not
                                             //BYTE 30-31:0, ignore
 											//BYTE 64-67:0, ignore
-		std::vector<DBaseFieldDescArray> fieldDescriptors;	//BYTE 68-n Field Descriptor Array, 48 bytes each
                                             //BYTE n+1: 0x0D (13) field descriptor terminator
                                             //BYTE n+2 start of the field properties
 
+        std::vector<DBaseFieldDescArray> fieldDescriptors;	//BYTE 68-n Field Descriptor Array, 48 bytes each
+        unsigned int endOfHeader = 0;
 		bool hasStructuralCDX = false;
 		bool hasMemoField = false;
 		bool isDatabase =  false;
 		uint8_t fieldDescArrayNum = 0;
-		uint8_t codePageMark;
-
-		//helper function
-		std::string getFileContents(std::ifstream& iFile);
+		uint8_t codePageMark = 0;
 };
 
 //Exceptions
 //no memory available on system
-class noMemoryAvailableEx : public std::runtime_error{};
+class noMemoryAvailableEx : public std::runtime_error{
+    static constexpr const char* m_defaultErrorStr = "Not enough memory available";
+public:
+    noMemoryAvailableEx(const char* errorStr = m_defaultErrorStr);
+    ~noMemoryAvailableEx();
+};
 
 //file could not be read
-class fileNotFoundEx : public std::runtime_error{};
+class fileNotFoundEx : public std::runtime_error{
+    static constexpr const char* m_defaultErrorStr = "File not found";
+public:
+    fileNotFoundEx(const char* errorStr = m_defaultErrorStr);
+    ~fileNotFoundEx();
+};
 
 //header is not a calculatable, misaligned bytes
 class unexpectedHeaderEndEx : public std::runtime_error{
-	int m_byteHeaderFailed = 0;
-	bool m_isFoxBaseHeader = false;
+    friend class unexpectedBlockSize;
+protected:
+	static constexpr int m_byteHeaderFailed = 0;
+	static constexpr bool m_isFoxBaseHeader = false;
+	static constexpr const char* m_defaultErrorStr = "Unexpected header termination";
+public:
+    unexpectedHeaderEndEx(const char* errorStr = m_defaultErrorStr,
+                          unsigned int byteWhenFailed = m_byteHeaderFailed,
+                          bool isFoxBaseHeader = m_isFoxBaseHeader)
+                          : runtime_error(m_defaultErrorStr){};
+    virtual ~unexpectedHeaderEndEx();
+    what(const char* errorStr = m_defaultErrorStr);
 };
 
 //blockSize is too short or too long, calculate expected byte layout
-class unexpectedBlockSize	: public unexpectedHeaderEndEx{
-	int m_blockSizePrev;
-	int calculateNextBlockSize(int prev, int totalStringSize, ...);
+class unexpectedBlockSize : protected unexpectedHeaderEndEx{
+    static constexpr const char* m_defaultErrorStr = "Unexpected block size";
+	static constexpr unsigned int m_unexpectedBlockSizePrev = 32;
+public:
+    unexpectedBlockSize(const char* errorStr = m_defaultErrorStr,
+                        unsigned int byteWhenFailed = m_byteHeaderFailed,
+                        unsigned int unexpectedBlockSizePrev = m_unexpectedBlockSizePrev)
+                        : unexpectedHeaderEndEx(errorStr){};
+    ~unexpectedBlockSize();
 };
 
-class badFileEx : public std::runtime_error{};
-class incompleteTransactionEx : public badFileEx{};
+//base for other file-related exceptions
+class badFileEx : public std::runtime_error{
+    friend class incompleteTransactionEx;
+protected:
+	static constexpr const char* m_defaultErrorStr = "Unexpected error when opening file.";
+public:
+    badFileEx(const char* errorStr = m_defaultErrorStr);
+    ~badFileEx();
+	what(const char* errorStr = m_defaultErrorStr);
+};
+
+//transaction is incomplete
+class incompleteTransactionEx : public badFileEx{
+private:
+    static constexpr const char* m_defaultErrorStr = "File transaction is incomplete.";
+public:
+    incompleteTransactionEx(const char* errorStr = m_defaultErrorStr)
+                            : badFileEx(errorStr){};
+    ~incompleteTransactionEx();
+};
 
 #endif // DBASEFILE_H

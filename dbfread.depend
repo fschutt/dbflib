@@ -1,18 +1,31 @@
 # depslib dependency file v1.0
-1477160137 source:c:\development\dbfread\dbfread\main.cpp
+1477729577 source:c:\development\dbfread\dbfread\main.cpp
 	<iostream>
 	"DBaseFile.h"
 
-1477162932 c:\development\dbfread\dbfread\include\dbasefile.h
+1477739452 c:\development\dbfread\dbfread\include\dbasefile.h
 	<string>
 	<vector>
+	<stdint.h>
+	<bitset>
+	<ctime>
+	<exception>
+	<stdexcept>
 	"DBaseRecord.h"
+	"DBaseFieldDescArray.h"
 
-1477162936 c:\development\dbfread\dbfread\include\dbaserecord.h
+1477703767 c:\development\dbfread\dbfread\include\dbaserecord.h
 
-1477160174 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
-	"DBaseFile.h"
+1477739073 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
 	<iostream>
+	<fstream>
+	<stdexcept>
+	<bitset>
+	<ctime>
+	<iomanip>
+	<sstream>
+	"DBaseFile.h"
+	"DBaseFieldDescArray.h"
 
 1477160074 source:c:\development\dbfread\dbfread\src\dbaserecord.cpp
 	"DBaseRecord.h"
@@ -66,4 +79,24 @@
 	"DBaseFieldProperty.h"
 
 1477249267 d:\development\dbflib\include\dbasefieldproperty.h
+
+1477703767 c:\development\dbfread\dbfread\include\dbasefielddescarray.h
+	<stdint.h>
+	<string>
+
+1477160533 source:c:\development\dbfread\dbfread\src\dbasefield.cpp
+	"DBaseField.h"
+
+1477163022 c:\development\dbfread\dbfread\include\dbasefield.h
+
+1477703767 source:c:\development\dbfread\dbfread\src\dbasefielddescarray.cpp
+	"DBaseFieldDescArray.h"
+	<iostream>
+	<string>
+	<cstring>
+
+1477703767 source:c:\development\dbfread\dbfread\src\dbasefieldproperty.cpp
+	"DBaseFieldProperty.h"
+
+1477703767 c:\development\dbfread\dbfread\include\dbasefieldproperty.h
 
