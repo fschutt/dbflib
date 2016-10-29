@@ -23,21 +23,21 @@ DBaseFieldDescArray::DBaseFieldDescArray(char rawData[31])
 
 	//Data type
 	switch(rawData[11]){
-	case 'C':	cout << "Character";		break;
-	case 'Y':	cout << "Currency";			break;
-	case 'N':	cout << "Numeric";			break;
-	case 'F':	cout << "Float";			break;
-	case 'D':	cout << "Date";				break;
-	case 'T':	cout << "DateTime";			break;
-	case 'B':	cout << "Double";			break;
-	case 'I':	cout << "Integer";			break;
-	case 'L':	cout << "Logical";			break;
-	case 'M':	cout << "Memo";				break;
-	case 'G':	cout << "General";			break;
-	case 'P':	cout << "Picture";			break;
-	case '+':	cout << "Autoincrement";	break;
-	case 'O':	cout << "Double";			break;
-	case '@':	cout << "Timestamp";		break;
+        case 'C':	cout << "Character";		break;
+        case 'Y':	cout << "Currency";			break;
+        case 'N':	cout << "Numeric";			break;
+        case 'F':	cout << "Float";			break;
+        case 'D':	cout << "Date";				break;
+        case 'T':	cout << "DateTime";			break;
+        case 'B':	cout << "Double";			break;
+        case 'I':	cout << "Integer";			break;
+        case 'L':	cout << "Logical";			break;
+        case 'M':	cout << "Memo";				break;
+        case 'G':	cout << "General";			break;
+        case 'P':	cout << "Picture";			break;
+        case '+':	cout << "Autoincrement";	break;
+        case 'O':	cout << "Double";			break;
+        case '@':	cout << "Timestamp";		break;
 	default: cout << "\t" << endl;
 	}
 

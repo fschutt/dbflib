@@ -22,31 +22,34 @@ bool DBaseFile::openFile(const std::string fileName){
     iFile.open(fileName.c_str(), ios::binary | ios::in);
 
     if(!iFile){
-            throw fileNotFoundEx();
+            //throw fileNotFoundEx();
     }
 
     iFile.seekg(0, iFile.end);
     fileSizeBytes = iFile.tellg();
     iFile.seekg(endOfHeader, iFile.beg);
 
-    iFile.close();
-
 
     if(fileSizeBytes <= 0){
-        throw unexpectedHeaderEndEx(nullptr, fileSizeBytes);
+        //throw unexpectedHeaderEndEx(nullptr, fileSizeBytes);
     }
 
     //Read file contents into memory
     m_rawData = getFileContents(iFile);
+
+    unsigned char* rawData = new unsigned char[fileSizeBytes];
+
+    iFile.close();
+
     //Temporary variables
-    char currentByte;
+    unsigned char currentByte;
     char fieldDescArray[blockSize-1];
     struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0};
 
     //Loop through file
     for(unsigned int i = 0; i <= m_rawData.size(); i++){
 
-        currentByte = m_rawData.at(1);
+        currentByte = m_rawData.at(i);
 
         //Read file header bit by bit. Spec of DBF files available at:
         //http://www.dbf2002.com/dbf-file-format.html
@@ -100,7 +103,7 @@ bool DBaseFile::openFile(const std::string fileName){
                     numRecordsInDB += (currentByte << (8*(i-4)));
                     break;
                 }case 8: case 9:{ //Position of first data record
-                    numBytesInHeader += (currentByte << ((8*(i-8))));
+                    numBytesInHeader += (currentByte << (8*(i-8)));
                     break;
                 }case 10: case 11:{ //Length of one data record incl. deleting flag
                     numBytesInRecord += (currentByte << (8*(i-10)));
@@ -128,6 +131,8 @@ bool DBaseFile::openFile(const std::string fileName){
             }
         }//end if
 
+    }//end for loop
+
     fieldDescArrayNum = ((endOfHeader-blockSize) / blockSize);
 
     if(((endOfHeader-blockSize) % blockSize) != 0){
@@ -137,8 +142,7 @@ bool DBaseFile::openFile(const std::string fileName){
     //Postfix: convert fileLastUpdated to lastUpdated time type
     lastUpdated = mktime(&fileLastUpdated);
 
-    }//end for loop
-
+    delete rawData;
     //TODO: Exceptions, block size handling
     return true;
 }
@@ -154,7 +158,7 @@ std::string DBaseFile::getFileContents(ifstream& iFile){
 	std::stringstream tempContentsFileStream;
 
 		if(iFile.peek() == std::ifstream::traits_type::eof()){
-			throw unexpectedHeaderEndEx("Empty file", 0);
+			//throw unexpectedHeaderEndEx("Empty file", 0);
 		}
 
 		iFile.exceptions(std::ios::failbit);
@@ -162,7 +166,7 @@ std::string DBaseFile::getFileContents(ifstream& iFile){
 		tempContentsFileStream << iFile.rdbuf();
 
 		if(!(tempContentsFileStream.good())){
-			throw noMemoryAvailableEx();
+			//throw noMemoryAvailableEx();
 		}
 
 	return tempContentsFileStream.str();

@@ -52,6 +52,7 @@ class DBaseFile
                                             //BYTE n+1: 0x0D (13) field descriptor terminator
                                             //BYTE n+2 start of the field properties
 
+
         std::vector<DBaseFieldDescArray> fieldDescriptors;	//BYTE 68-n Field Descriptor Array, 48 bytes each
         unsigned int endOfHeader = 0;
 		bool hasStructuralCDX = false;
@@ -63,10 +64,10 @@ class DBaseFile
 
 //Exceptions
 //no memory available on system
-class noMemoryAvailableEx : public std::runtime_error{
-    static constexpr const char* m_defaultErrorStr = "Not enough memory available";
+class noMemoryAvailableEx : public std::exception{
+    std::string m_defaultErrorStr;
 public:
-    noMemoryAvailableEx(const char* errorStr = m_defaultErrorStr);
+    noMemoryAvailableEx(std::string errorStr = "Out of memory") : m_defaultErrorStr(errorStr){};
     ~noMemoryAvailableEx();
 };
 
