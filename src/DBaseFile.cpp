@@ -61,19 +61,15 @@ void DBaseFile::readHeader(std::ifstream& iFile){
 	try{
         iFile.exceptions(std::ios::badbit);
         //copy into tempHeaderSS
-        while(true){
-            char cur = iFile.get();
-            if(cur == (char)0x0D){
-                break;
-            }else{
-                tempHeader.append(1, iFile.get());
-            }
+        for(unsigned int i = 0; i < m_fileHeaderLength; i++){
+            tempHeader.append(1, iFile.get());
         }
 
 	}catch(const ios_base::failure& e){
         throw badFileEx(e.what());
 	}
 
+	std::cout << tempHeader << std::endl;
 	m_header.parse(tempHeader);
 }
 

@@ -9,7 +9,7 @@
 class DBaseHeader
 {
     public:
-        bool parse(std::string& headerData);
+        void parse(std::string& headerData);
         void stat();
 
     private:

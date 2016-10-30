@@ -3,21 +3,20 @@
 #include <iostream>
 #include <bitset>
 
-bool DBaseHeader::parse(std::string& headerData){
+void DBaseHeader::parse(std::string& headerData){
 
     //Temporary variables
     unsigned char currentByte;
-    char fieldDescArray[m_blockSize-1];
     struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0};
 
     //TODO: read file into m_headerData
-    for(unsigned int i = 0; i <= headerData.size(); i++){
-
+    for(unsigned int i = 0; i < headerData.size(); i++){
         currentByte = headerData.at(i);
 
         //Read file header bit by bit. Spec of DBF files available at:
         //http://www.dbf2002.com/dbf-file-format.html
         if(currentByte == 0x0D){break;}
+        std::cout << i << std::endl;
 
         if(i < m_blockSize){
             switch(i){
@@ -72,15 +71,19 @@ bool DBaseHeader::parse(std::string& headerData){
                     break;
                 }case 14:{
                     m_incompleteTransaction = (currentByte == 1 ? true : false);
+                    break;
                 }case 15:{
                     m_encrypted = (currentByte == 1 ? true : false);
+                    break;
                 }case 28:{
                     std::bitset<8> bit28 = toBits(currentByte);
                     if(bit28[0]){m_hasStructuralCDX = true;};
                     if(bit28[1]){m_hasMemoField = true;};
                     if(bit28[2]){m_isDatabase = true;};
+                    break;
                 }case 29:{
                     m_codePageMark = (uint8_t)currentByte;
+                    break;
                 }
             }
 
