@@ -3,16 +3,6 @@
 #include <iostream>
 #include <bitset>
 
-DBaseHeader::DBaseHeader()
-{
-    //ctor
-}
-
-DBaseHeader::~DBaseHeader()
-{
-    //dtor
-}
-
 bool DBaseHeader::parse(std::string& headerData){
 
     //Temporary variables

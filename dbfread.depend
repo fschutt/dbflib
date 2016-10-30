@@ -1,18 +1,21 @@
 # depslib dependency file v1.0
-1477729577 source:c:\development\dbfread\dbfread\main.cpp
+1477830527 source:c:\development\dbfread\dbfread\main.cpp
 	<iostream>
+	<stdexcept>
 	"DBaseFile.h"
 
-1477774218 c:\development\dbfread\dbfread\include\dbasefile.h
+1477830166 c:\development\dbfread\dbfread\include\dbasefile.h
 	<string>
 	<vector>
 	"DBaseRecord.h"
-	"DBaseFieldDescArray.h"
+	"DBaseColDef.h"
 	"DBaseHeader.h"
+	"DBaseRecord.h"
 
-1477703767 c:\development\dbfread\dbfread\include\dbaserecord.h
+1477828157 c:\development\dbfread\dbfread\include\dbaserecord.h
+	<string>
 
-1477773680 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
+1477830384 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
 	<iostream>
 	<fstream>
 	<stdexcept>
@@ -21,10 +24,14 @@
 	<iomanip>
 	<sstream>
 	"DBaseFile.h"
-	"DBaseFieldDescArray.h"
+	"DBaseColDef.h"
+	<windows.h>
+	<unistd.h>
 
-1477160074 source:c:\development\dbfread\dbfread\src\dbaserecord.cpp
+1477828152 source:c:\development\dbfread\dbfread\src\dbaserecord.cpp
 	"DBaseRecord.h"
+	<iostream>
+	<string>
 
 1477346969 source:d:\development\dbflib\main.cpp
 	<iostream>
@@ -76,35 +83,45 @@
 
 1477249267 d:\development\dbflib\include\dbasefieldproperty.h
 
-1477703767 c:\development\dbfread\dbfread\include\dbasefielddescarray.h
+1477700167 c:\development\dbfread\dbfread\include\dbasefielddescarray.h
 	<stdint.h>
 	<string>
 
-1477160533 source:c:\development\dbfread\dbfread\src\dbasefield.cpp
+1477156933 source:c:\development\dbfread\dbfread\src\dbasefield.cpp
 	"DBaseField.h"
 
-1477163022 c:\development\dbfread\dbfread\include\dbasefield.h
+1477159422 c:\development\dbfread\dbfread\include\dbasefield.h
 
-1477773463 source:c:\development\dbfread\dbfread\src\dbasefielddescarray.cpp
+1477769863 source:c:\development\dbfread\dbfread\src\dbasefielddescarray.cpp
 	"DBaseFieldDescArray.h"
 	<iostream>
 	<string>
 	<cstring>
 
-1477703767 source:c:\development\dbfread\dbfread\src\dbasefieldproperty.cpp
+1477700167 source:c:\development\dbfread\dbfread\src\dbasefieldproperty.cpp
 	"DBaseFieldProperty.h"
 
-1477703767 c:\development\dbfread\dbfread\include\dbasefieldproperty.h
+1477700167 c:\development\dbfread\dbfread\include\dbasefieldproperty.h
 
-1477762543 c:\development\dbfread\dbfread\include\dbaseheader.h
+1477827784 c:\development\dbfread\dbfread\include\dbaseheader.h
 	<fstream>
 	<stdint.h>
 	<bitset>
 	<ctime>
 
-1477773537 source:c:\development\dbfread\dbfread\src\dbaseheader.cpp
+1477824483 source:c:\development\dbfread\dbfread\src\dbaseheader.cpp
 	"DBaseHeader.h"
 	<fstream>
 	<iostream>
 	<bitset>
+
+1477827889 c:\development\dbfread\dbfread\include\dbasecoldef.h
+	<stdint.h>
+	<string>
+
+1477827889 source:c:\development\dbfread\dbfread\src\dbasecoldef.cpp
+	"DBaseColDef.h"
+	<iostream>
+	<string>
+	<cstring>
 

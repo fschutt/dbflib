@@ -1,16 +1,16 @@
-#include "DBaseFieldDescArray.h"
+#include "DBaseColDef.h"
 #include <iostream>
 #include <string>
 #include <cstring>
 
 using namespace std;
 
-DBaseFieldDescArray::DBaseFieldDescArray()
+DBaseColDef::DBaseColDef()
 {
 	//ctor
 }
 
-DBaseFieldDescArray::DBaseFieldDescArray(char rawData[31])
+DBaseColDef::DBaseColDef(char rawData[31])
 {
 	for(unsigned int i = 0; i <= 31;i++){
 		//Field name with a maximum of 10 characters
@@ -75,7 +75,7 @@ DBaseFieldDescArray::DBaseFieldDescArray(char rawData[31])
 
 }
 
-DBaseFieldDescArray::~DBaseFieldDescArray()
+DBaseColDef::~DBaseColDef()
 {
 	//dtor
 }

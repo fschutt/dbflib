@@ -1,14 +1,14 @@
-#ifndef DBASEFIELDDESCARRAY_H
-#define DBASEFIELDDESCARRAY_H
+#ifndef DBaseColDef_H
+#define DBaseColDef_H
 #include <stdint.h>
 #include <string>
 
-class DBaseFieldDescArray
+class DBaseColDef
 {
 	public:
-		DBaseFieldDescArray();
-		~DBaseFieldDescArray();
-		DBaseFieldDescArray(char rawData[31]);
+		DBaseColDef();
+		~DBaseColDef();
+		DBaseColDef(char rawData[31]);
 
 	private:
 		char fieldName[32];
@@ -19,4 +19,4 @@ class DBaseFieldDescArray
 		uint_fast32_t nextAutoIncrement = 0x00;
 };
 
-#endif // DBASEFIELDDESCARRAY_H
+#endif // DBaseColDef_H

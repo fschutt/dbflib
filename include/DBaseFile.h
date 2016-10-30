@@ -5,8 +5,9 @@
 #include <vector>
 
 #include "DBaseRecord.h"
-#include "DBaseFieldDescArray.h"
+#include "DBaseColDef.h"
 #include "DBaseHeader.h"
+#include "DBaseRecord.h"
 
 class DBaseFile
 {
@@ -14,32 +15,41 @@ class DBaseFile
         /**<Open file and get contents */
         bool openFile(const std::string fileName);
         /**<Open file and get contents */
-		void stat(){header.stat();};
+		void stat(){m_header.stat();};
 
     private:
-        /**< Read file contents safely into std::string */
-		std::string readHeader(std::ifstream& iFile);
-
-        std::string readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader);
+        /**< Read file header safely into std::string */
+		void readHeader(std::ifstream& iFile);
+        /**< Read field columns */
+        void readColumns(std::ifstream& iFile, DBaseHeader& iFileHeader);
+        /**< Read records of file */
+        void readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader);
         /**< Set block size depending on found block size: Either 48 Byte, 32 Byte or 16 Byte */
-        int calculateNextBlockSize(int prev, int totalStringSize, ...);
+        int calculateBlockSize(int prev, int totalStringSize);
 
+        unsigned long long getAvailableMemory();
 		/**< File size of .dbf file */
-		int m_fileSize = 0;
-		/**< File header length in Bytes */
+		unsigned long long m_fileSize = 0;
+		/**< Memory available on system*/
+		unsigned long long m_memAvailable = 0;
+		/**< File header length in bytes */
 		unsigned int m_fileHeaderLength = 32;
-		/**< Field subrecords structure */
-		unsigned int m_subrecordsLength = 0;
-		/**< Total header size (fileHeader + subrecords definition) */
+		/**< Column definition structure length in bytes */
+		unsigned int m_colDefLength = 0;
+		/**< Column definition block size (per column definition) length in bytes */
+		unsigned int m_colDefBlockSize = 64;
+		/**< Total header size (fileHeader + column definition definition) */
 		unsigned int m_totalHeaderLength = 0;
         /**< Header contents (read raw from disk)*/
 		std::string m_headerData = "";
 
 		/**< \section Member variables */
 		/**< Header structure */
-		DBaseHeader header;
-		/**< Subrecords (column definitions) */
-        std::vector<DBaseFieldDescArray> fieldDescriptors;	//BYTE 68-n Field Descriptor Array, 48 bytes each
+		DBaseHeader m_header;
+		/**< Column defintion / field descriptors / subrecord structure */
+        std::vector<DBaseColDef> m_fieldDescriptors;
+		/**< Data records in the file */
+        std::vector<DBaseRecord*> m_records;
 };
 
 /**< \section   Exceptions */
@@ -75,24 +85,6 @@ public:
                             m_byteHeaderFailed(byteWhenFailed),
                             m_isFoxBaseHeader(isFoxBaseHeader){};
     virtual ~unexpectedHeaderEndEx(){};
-    virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
-};
-
-/**< \brief     Subrecords (column definitions) do not fit neatly in header.
-*               Try again with different block size */
-class unexpectedBlockSize : protected unexpectedHeaderEndEx{
-	unsigned int m_blockSizeDefault = 48;
-	unsigned int m_blockSizeCurrent = m_blockSizeDefault;
-public:
-    unexpectedBlockSize(std::string errorStr = "Unexpected block size",
-                        unsigned int byteWhenFailed = 0,
-                        unsigned int blockSizeCurrent = 48)
-                        : unexpectedHeaderEndEx(errorStr, byteWhenFailed, false){
-                              if(blockSizeCurrent != m_blockSizeDefault){
-                                    m_blockSizeCurrent = blockSizeCurrent;
-                                    }
-                          };
-    virtual ~unexpectedBlockSize(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 

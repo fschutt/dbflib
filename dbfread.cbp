@@ -36,16 +36,17 @@
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/DBaseColDef" />
 		<Unit filename="include/DBaseField.h" />
-		<Unit filename="include/DBaseFieldDescArray.h" />
-		<Unit filename="include/DBaseFieldProperty.h" />
 		<Unit filename="include/DBaseFile.h" />
 		<Unit filename="include/DBaseHeader.h" />
 		<Unit filename="include/DBaseRecord.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/DBaseColDef">
+			<Option compile="1" />
+			<Option link="1" />
+		</Unit>
 		<Unit filename="src/DBaseField.cpp" />
-		<Unit filename="src/DBaseFieldDescArray.cpp" />
-		<Unit filename="src/DBaseFieldProperty.cpp" />
 		<Unit filename="src/DBaseFile.cpp" />
 		<Unit filename="src/DBaseHeader.cpp" />
 		<Unit filename="src/DBaseRecord.cpp" />
