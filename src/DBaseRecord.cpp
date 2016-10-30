@@ -7,9 +7,9 @@ DBaseRecord::DBaseRecord()
     //ctor
 }
 
-DBaseRecord::DBaseRecord(std::string& recordStr)
+DBaseRecord::DBaseRecord(std::string& recordStr, std::vector<DBaseColDef>& iFileColDef)
 {
-    std::cout << "Adding record: " << recordStr << std::endl;
+    std::cerr << recordStr << std::endl << std::endl;
 }
 
 DBaseRecord::~DBaseRecord()

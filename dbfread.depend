@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1477830527 source:c:\development\dbfread\dbfread\main.cpp
+1477848810 source:c:\development\dbfread\dbfread\main.cpp
 	<iostream>
 	<stdexcept>
 	"DBaseFile.h"
 
-1477830166 c:\development\dbfread\dbfread\include\dbasefile.h
+1477849270 c:\development\dbfread\dbfread\include\dbasefile.h
 	<string>
 	<vector>
 	"DBaseRecord.h"
@@ -12,10 +12,12 @@
 	"DBaseHeader.h"
 	"DBaseRecord.h"
 
-1477828157 c:\development\dbfread\dbfread\include\dbaserecord.h
+1477846435 c:\development\dbfread\dbfread\include\dbaserecord.h
 	<string>
+	<vector>
+	"DBaseColDef.h"
 
-1477827889 c:\development\dbfread\dbfread\include\dbasecoldef.h
+1477847299 c:\development\dbfread\dbfread\include\dbasecoldef.h
 	<stdint.h>
 	<string>
 
@@ -30,7 +32,7 @@
 
 1477159422 c:\development\dbfread\dbfread\include\dbasefield.h
 
-1477835762 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
+1477849408 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
 	<iostream>
 	<fstream>
 	<stdexcept>
@@ -43,18 +45,18 @@
 	<windows.h>
 	<unistd.h>
 
-1477837616 source:c:\development\dbfread\dbfread\src\dbaseheader.cpp
+1477842050 source:c:\development\dbfread\dbfread\src\dbaseheader.cpp
 	"DBaseHeader.h"
 	<fstream>
 	<iostream>
 	<bitset>
 
-1477828152 source:c:\development\dbfread\dbfread\src\dbaserecord.cpp
+1477846335 source:c:\development\dbfread\dbfread\src\dbaserecord.cpp
 	"DBaseRecord.h"
 	<iostream>
 	<string>
 
-1477827889 source:c:\development\dbfread\dbfread\src\dbasecoldef.cpp
+1477846775 source:c:\development\dbfread\dbfread\src\dbasecoldef.cpp
 	"DBaseColDef.h"
 	<iostream>
 	<string>

@@ -8,9 +8,8 @@ class DBaseColDef
 	public:
 		DBaseColDef();
 		~DBaseColDef();
-		DBaseColDef(char rawData[31]);
+		DBaseColDef(std::string& rawData);
 
-	private:
 		char fieldName[32];
 		char fieldType;
 		char fieldLength;

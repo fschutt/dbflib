@@ -25,7 +25,7 @@ class DBaseFile
         /**< Read records of file */
         void readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader);
         /**< Set block size depending on found block size: Either 48 Byte, 32 Byte or 16 Byte */
-        int calculateBlockSize(int prev, int totalStringSize);
+        unsigned int calculateBlockSize(unsigned int& prev, unsigned int& totalStringSize);
 
         unsigned long long getAvailableMemory();
 		/**< File size of .dbf file */
@@ -37,7 +37,7 @@ class DBaseFile
 		/**< Column definition structure length in bytes */
 		unsigned int m_colDefLength = 0;
 		/**< Column definition block size (per column definition) length in bytes */
-		unsigned int m_colDefBlockSize = 64;
+		unsigned int m_colDefBlockSize = 32;
 		/**< Total header size (fileHeader + column definition definition) */
 		unsigned int m_totalHeaderLength = 0;
         /**< Header contents (read raw from disk)*/
@@ -47,7 +47,7 @@ class DBaseFile
 		/**< Header structure */
 		DBaseHeader m_header;
 		/**< Column defintion / field descriptors / subrecord structure */
-        std::vector<DBaseColDef> m_fieldDescriptors;
+        std::vector<DBaseColDef> m_colDef;
 		/**< Data records in the file */
         std::vector<DBaseRecord*> m_records;
 };

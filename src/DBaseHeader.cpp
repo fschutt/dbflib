@@ -16,7 +16,6 @@ void DBaseHeader::parse(std::string& headerData){
         //Read file header bit by bit. Spec of DBF files available at:
         //http://www.dbf2002.com/dbf-file-format.html
         if(currentByte == 0x0D){break;}
-        std::cout << i << std::endl;
 
         if(i < m_blockSize){
             switch(i){

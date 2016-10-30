@@ -2,12 +2,14 @@
 #define DBASERECORD_H
 
 #include <string>
+#include <vector>
+#include "DBaseColDef.h"
 
 class DBaseRecord
 {
     public:
         DBaseRecord();
-        DBaseRecord(std::string& recordStr);
+        DBaseRecord(std::string& recordStr, std::vector<DBaseColDef>& iFileColDef);
         ~DBaseRecord();
     protected:
 

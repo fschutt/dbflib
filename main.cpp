@@ -10,7 +10,7 @@ int main()
     DBaseFile dbf;
     //See SHBrowseForFolder, GetOpenFileName
     try{
-        dbf.openFile("./test/ADRESSEN.DBF");
+        dbf.openFile("./test/ANSPRECH.DBF");
     }catch(std::runtime_error& e){
         std::cout << e.what() << std::endl;
     }
