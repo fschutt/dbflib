@@ -23,11 +23,10 @@ using namespace std;
  */
 bool DBaseFile::openFile(const std::string fileName){
 
-    //get file size
+    //open file and get file size
     std::ifstream iFile(fileName, std::ifstream::ate | std::ifstream::binary);
     m_fileSize = (unsigned long long)iFile.tellg();
     iFile.seekg(0, iFile.beg);
-    iFile.close();
 
     //check memory
     m_memAvailable = getAvailableMemory();
@@ -36,6 +35,10 @@ bool DBaseFile::openFile(const std::string fileName){
 
     //Read file contents into heap memory
     readHeader(iFile);
+    readColumns(iFile, m_header);
+    readRecords(iFile, m_header);
+    iFile.close();
+
     m_colDefBlockSize = calculateBlockSize(m_colDefBlockSize, m_colDefLength);
     if(!(m_headerData.empty())){ m_header.parse(m_headerData);}
 
@@ -51,19 +54,19 @@ bool DBaseFile::openFile(const std::string fileName){
  * \return File contents as std::string
  */
 void DBaseFile::readHeader(std::ifstream& iFile){
-	std::stringstream tempHeaderSS;
+	std::string tempHeader;
 
-    if(!(tempHeaderSS.good())){ throw noMemoryAvailableEx(); };
-    iFile.exceptions(std::ios::failbit | std::ios::badbit);
+    //if(!(tempHeaderSS.good())){ throw noMemoryAvailableEx(); };
 
 	try{
+        iFile.exceptions(std::ios::badbit);
         //copy into tempHeaderSS
         while(true){
             char cur = iFile.get();
-            if(cur != (char)0x0D){
+            if(cur == (char)0x0D){
                 break;
             }else{
-                tempHeaderSS << iFile.get();
+                tempHeader.append(1, iFile.get());
             }
         }
 
@@ -71,7 +74,6 @@ void DBaseFile::readHeader(std::ifstream& iFile){
         throw badFileEx(e.what());
 	}
 
-	std::string tempHeader = tempHeaderSS.str();
 	m_header.parse(tempHeader);
 }
 
@@ -132,7 +134,7 @@ unsigned long long DBaseFile::getAvailableMemory()
         MEMORYSTATUSEX status;
         status.dwLength = sizeof(status);
         GlobalMemoryStatusEx(&status);
-        return status.ullTotalPhys;
+        return status.ullAvailPhys;
     #elif defined(__linux__)
         long pages = sysconf(_SC_PHYS_PAGES);
         long page_size = sysconf(_SC_PAGE_SIZE);
