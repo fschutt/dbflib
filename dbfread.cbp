@@ -40,12 +40,14 @@
 		<Unit filename="include/DBaseFieldDescArray.h" />
 		<Unit filename="include/DBaseFieldProperty.h" />
 		<Unit filename="include/DBaseFile.h" />
+		<Unit filename="include/DBaseHeader.h" />
 		<Unit filename="include/DBaseRecord.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/DBaseField.cpp" />
 		<Unit filename="src/DBaseFieldDescArray.cpp" />
 		<Unit filename="src/DBaseFieldProperty.cpp" />
 		<Unit filename="src/DBaseFile.cpp" />
+		<Unit filename="src/DBaseHeader.cpp" />
 		<Unit filename="src/DBaseRecord.cpp" />
 		<Extensions>
 			<code_completion />

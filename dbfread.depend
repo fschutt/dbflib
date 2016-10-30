@@ -3,7 +3,7 @@
 	<iostream>
 	"DBaseFile.h"
 
-1477762547 c:\development\dbfread\dbfread\include\dbasefile.h
+1477774218 c:\development\dbfread\dbfread\include\dbasefile.h
 	<string>
 	<vector>
 	"DBaseRecord.h"
@@ -12,7 +12,7 @@
 
 1477703767 c:\development\dbfread\dbfread\include\dbaserecord.h
 
-1477762574 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
+1477773680 source:c:\development\dbfread\dbfread\src\dbasefile.cpp
 	<iostream>
 	<fstream>
 	<stdexcept>
@@ -85,7 +85,7 @@
 
 1477163022 c:\development\dbfread\dbfread\include\dbasefield.h
 
-1477749426 source:c:\development\dbfread\dbfread\src\dbasefielddescarray.cpp
+1477773463 source:c:\development\dbfread\dbfread\src\dbasefielddescarray.cpp
 	"DBaseFieldDescArray.h"
 	<iostream>
 	<string>
@@ -101,4 +101,10 @@
 	<stdint.h>
 	<bitset>
 	<ctime>
+
+1477773537 source:c:\development\dbfread\dbfread\src\dbaseheader.cpp
+	"DBaseHeader.h"
+	<fstream>
+	<iostream>
+	<bitset>
 

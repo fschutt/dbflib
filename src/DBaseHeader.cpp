@@ -1,5 +1,7 @@
 #include "DBaseHeader.h"
 #include <fstream>
+#include <iostream>
+#include <bitset>
 
 DBaseHeader::DBaseHeader()
 {
@@ -104,33 +106,33 @@ bool DBaseHeader::parse(std::string& headerData){
 void DBaseHeader::stat()
 {
     ///DEBUG STATEMENTS BEGIN
-    cout << endl;
-    cout << m_fileType << endl;
-    cout << "Header with length " << m_numBytesInHeader << " bytes contains " << m_fieldDescArrayNum << " field descriptor arrays!"  << endl;
+    std::cout << std::endl;
+    std::cout << m_fileType << std::endl;
+    std::cout << "Header with length " << m_numBytesInHeader << " bytes contains " << m_fieldDescArrayNum << " field descriptor arrays!"  << std::endl;
 
-    cout << "Has memo field:\t\t\t\t";
-    cout << (m_hasMemoField ? "YES" : "NO") << endl;
-    cout << "Has structural .cdx file:\t\t";
-    cout << (m_hasStructuralCDX ? "YES" : "NO") << endl;
-    cout << "File is a database:\t\t\t";
-    cout << (m_isDatabase ? "YES" : "NO") << endl;
-    cout << "SQL file is present:\t\t\t";
-    cout << (m_sqlFilePresent ? "YES" : "NO") << endl;
-    cout << "Any memo file present:\t\t\t";
-    cout << (m_anyMemoFilePresent ? "YES" : "NO") << endl;
-    cout << "Has code page mark:\t\t\t";
-    cout << ((m_codePageMark != 0) ? "YES" : "NO") << endl;
+    std::cout << "Has memo field:\t\t\t\t";
+    std::cout << (m_hasMemoField ? "YES" : "NO") << std::endl;
+    std::cout << "Has structural .cdx file:\t\t";
+    std::cout << (m_hasStructuralCDX ? "YES" : "NO") << std::endl;
+    std::cout << "File is a database:\t\t\t";
+    std::cout << (m_isDatabase ? "YES" : "NO") << std::endl;
+    std::cout << "SQL file is present:\t\t\t";
+    std::cout << (m_sqlFilePresent ? "YES" : "NO") << std::endl;
+    std::cout << "Any memo file present:\t\t\t";
+    std::cout << (m_anyMemoFilePresent ? "YES" : "NO") << std::endl;
+    std::cout << "Has code page mark:\t\t\t";
+    std::cout << ((m_codePageMark != 0) ? "YES" : "NO") << std::endl;
 
-    cout << "Last updated:\t\t\t\t" << ctime(&m_lastUpdated);
-    cout << "Number of records:\t\t\t" << (int)m_numRecordsInDB << endl;
-    cout << "Number of bytes in header:\t\t" << (int)m_numBytesInHeader << endl;
-    cout << "Number of bytes per record:\t\t" << (int)m_numBytesInRecord << endl;
+    std::cout << "Last updated:\t\t\t\t" << ctime(&m_lastUpdated);
+    std::cout << "Number of records:\t\t\t" << (int)m_numRecordsInDB << std::endl;
+    std::cout << "Number of bytes in header:\t\t" << (int)m_numBytesInHeader << std::endl;
+    std::cout << "Number of bytes per record:\t\t" << (int)m_numBytesInRecord << std::endl;
 }
 
 /** \brief Helper function: convert byte to bitset
  * \param {char} 8-Bit char
  * \return {bitset} exploded byte into arrays
  */
-bitset<8> DBaseFile::toBits(const char& byte){
-    return bitset<8>(byte);
+std::bitset<8> DBaseHeader::toBits(const char& byte){
+    return std::bitset<8>(byte);
 }

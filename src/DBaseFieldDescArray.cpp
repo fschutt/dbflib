@@ -38,7 +38,7 @@ DBaseFieldDescArray::DBaseFieldDescArray(char rawData[31])
         case '+':	cout << "Autoincrement";	break;
         case 'O':	cout << "Double";			break;
         case '@':	cout << "Timestamp";		break;
-	default: cout << "\t" << endl;
+	default: cout << "\t" << std::endl;
 	}
 
 	cout << " ";
@@ -71,7 +71,7 @@ DBaseFieldDescArray::DBaseFieldDescArray(char rawData[31])
 	}
 
 
-	cout << endl;
+	cout << std::endl;
 
 }
 

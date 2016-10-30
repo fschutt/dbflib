@@ -18,9 +18,9 @@ class DBaseFile
 
     private:
         /**< Read file contents safely into std::string */
-		std::string getHeader(std::ifstream& iFile);
+		std::string readHeader(std::ifstream& iFile);
 
-        std::string readRecords(std::ifstream& iFile);
+        std::string readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader);
         /**< Set block size depending on found block size: Either 48 Byte, 32 Byte or 16 Byte */
         int calculateNextBlockSize(int prev, int totalStringSize, ...);
 
@@ -48,7 +48,7 @@ class noMemoryAvailableEx : public std::exception{
     std::string m_defaultErrorStr;
 public:
     noMemoryAvailableEx(std::string errorStr = "Out of memory") : m_defaultErrorStr(errorStr){};
-    ~noMemoryAvailableEx();
+    virtual ~noMemoryAvailableEx(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 
@@ -57,7 +57,7 @@ class fileNotFoundEx : public std::exception{
     std::string m_defaultErrorStr;
 public:
     fileNotFoundEx(std::string errorStr = "File could not be opened") : m_defaultErrorStr(errorStr){};
-    ~fileNotFoundEx();
+    virtual ~fileNotFoundEx(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 
@@ -74,7 +74,7 @@ public:
                           : m_defaultErrorStr(errorStr),
                             m_byteHeaderFailed(byteWhenFailed),
                             m_isFoxBaseHeader(isFoxBaseHeader){};
-    virtual ~unexpectedHeaderEndEx();
+    virtual ~unexpectedHeaderEndEx(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 
@@ -92,7 +92,7 @@ public:
                                     m_blockSizeCurrent = blockSizeCurrent;
                                     }
                           };
-    virtual ~unexpectedBlockSize();
+    virtual ~unexpectedBlockSize(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 
@@ -103,7 +103,7 @@ protected:
 public:
     badFileEx(std::string errorStr = "Unexpected error when opening file")
               : m_defaultErrorStr(errorStr){};
-    virtual ~badFileEx();
+    virtual ~badFileEx(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 
@@ -112,7 +112,7 @@ class incompleteTransactionEx : public badFileEx{
 public:
     incompleteTransactionEx(std::string errorStr = "File transaction is incomplete")
                             : badFileEx(errorStr){};
-    ~incompleteTransactionEx();
+    ~incompleteTransactionEx(){};
     virtual const char* what() const noexcept{ return (m_defaultErrorStr.c_str());};
 };
 

@@ -30,7 +30,7 @@ bool DBaseFile::openFile(const std::string fileName){
     if(m_fileSize <= 0){ throw unexpectedHeaderEndEx(nullptr, m_fileSize); }
 
     //Read file contents into heap memory
-    m_headerData = getHeader(iFile);
+    m_headerData = readHeader(iFile);
     unsigned char* headerData = new unsigned char[m_fileSize];
 
     //TODO: Check memory
@@ -54,33 +54,34 @@ bool DBaseFile::openFile(const std::string fileName){
  * \throw noMemoryAvailableEx
  * \return File contents as std::string
  */
-std::string DBaseFile::getHeader(ifstream& iFile){
-	std::stringstream tempContentsFileStream;
+std::string DBaseFile::readHeader(ifstream& iFile){
+	std::stringstream tempHeaderFS;
 
-		if(iFile.peek() == std::ifstream::traits_type::eof()){
-			//throw unexpectedHeaderEndEx("Empty file", 0);
-		}
+    if(iFile.peek() == std::ifstream::traits_type::eof()){
+        throw unexpectedHeaderEndEx();
+    }
+    iFile.exceptions(std::ios::failbit);
+    //copy into tempHeaderFS
+    if(iFile.get() != 0x0D){
+        tempHeaderFS << iFile.get();
+        std::cout << iFile.get();
+    }
 
-		iFile.exceptions(std::ios::failbit);
-		//operator << returns an ostream&, but in reality it's a stringstream&
-		tempContentsFileStream << iFile.rdbuf();
+    //tempHeaderFS << iFile.rdbuf();
+    if(!(tempHeaderFS.good())){
+        throw noMemoryAvailableEx();
+    }
 
-		if(!(tempContentsFileStream.good())){
-			//throw noMemoryAvailableEx();
-		}
-
-	return tempContentsFileStream.str();
+	return tempHeaderFS.str();
 }
 
-std::string DBaseFile::readRecords(std::ifstream& iFile)
+std::string DBaseFile::readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader)
 {
-    //memalloc
-
-        m_fieldDescArray[((i-m_blockSize) % m_blockSize)] = m_currentByte;
-        if((i-m_blockSize) % m_blockSize == m_blockSize-1){
-            //One block is full
-            fieldDescriptors.push_back(DBaseFieldDescArray(fieldDescArray));
-        }
+//    m_fieldDescArray[((i-m_blockSize) % m_blockSize)] = m_currentByte;
+//    if((i-m_blockSize) % m_blockSize == m_blockSize-1){
+//        //One block is full
+//        fieldDescriptors.push_back(DBaseFieldDescArray(fieldDescArray));
+//    }
 
     //read into DBaseFieldDescArray
     return "";//TODO
@@ -88,5 +89,6 @@ std::string DBaseFile::readRecords(std::ifstream& iFile)
 
 int DBaseFile::calculateNextBlockSize(int prev, int totalStringSize, ...)
 {
-
+    //TODO
+    return 32;
 }
