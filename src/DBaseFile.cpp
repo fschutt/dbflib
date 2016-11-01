@@ -66,12 +66,12 @@ void DBaseFile::readColDef(std::ifstream& iFile, DBaseHeader& iFileHeader){
     //omit terminating byte at header end
     unsigned int headerLengthWOTerminatingChar = iFileHeader.m_numBytesInHeader - 1;
     iFile.seekg((m_fileHeaderLength), iFile.beg);
-    std::string* colDefBuf = new std::string((headerLengthWOTerminatingChar - m_fileHeaderLength), ' ');
-    iFile.read(&(colDefBuf->at(0)), (headerLengthWOTerminatingChar - m_fileHeaderLength));
+    std::string colDefBuf((headerLengthWOTerminatingChar - m_fileHeaderLength), ' ');
+    iFile.read(&(colDefBuf.at(0)), (headerLengthWOTerminatingChar - m_fileHeaderLength));
 
-    //for each record
-    for(unsigned int i = 0; i < colDefBuf->size(); i+=m_colDefBlockSize){
-        std::string curColDefStr = colDefBuf->substr(i, m_colDefBlockSize);
+    //for each column
+    for(unsigned int i = 0; i < colDefBuf.size(); i+=m_colDefBlockSize){
+        std::string curColDefStr = colDefBuf.substr(i, m_colDefBlockSize);
         DBaseColDef colDef(curColDefStr);
         m_colDef.push_back(colDef);
     }
@@ -80,7 +80,8 @@ void DBaseFile::readColDef(std::ifstream& iFile, DBaseHeader& iFileHeader){
 ///Read records (based on header and column definition)
 void DBaseFile::readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader){
     iFile.seekg(m_header.m_numBytesInHeader);
-    std::string* recordBuf = new std::string((m_fileSize - iFileHeader.m_numBytesInHeader), ' ');
+    //recordBuf may be huge, allocate on heap
+    std::shared_ptr<std::string> recordBuf = std::make_shared<std::string>(std::string((m_fileSize - iFileHeader.m_numBytesInHeader), ' '));
     iFile.read(&(recordBuf->at(0)), (m_fileSize - iFileHeader.m_numBytesInHeader));
 
     //for each record

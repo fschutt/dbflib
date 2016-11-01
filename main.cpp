@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 
 #include "DBaseFile.h"
 
@@ -7,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    DBaseFile* dbf = new DBaseFile();
+    std::shared_ptr<DBaseFile> dbf = std::make_shared<DBaseFile>(DBaseFile());
     //See SHBrowseForFolder, GetOpenFileName
     try{
         dbf->openFile("./test/ANSPRECH.DBF");

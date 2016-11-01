@@ -63,3 +63,70 @@
 	<cstring>
 	<algorithm>
 
+1478019864 source:d:\development\dbflib\main.cpp
+	<iostream>
+	<stdexcept>
+	<memory>
+	"DBaseFile.h"
+
+1478014043 d:\development\dbflib\include\dbasefile.h
+	<string>
+	<vector>
+	"DBaseRecord.h"
+	"DBaseColDef.h"
+	"DBaseHeader.h"
+	"DBaseRecord.h"
+
+1478019290 d:\development\dbflib\include\dbaserecord.h
+	<string>
+	<vector>
+	<memory>
+	"DBaseColDef.h"
+
+1478014043 d:\development\dbflib\include\dbasecoldef.h
+	<stdint.h>
+	<string>
+
+1478014043 d:\development\dbflib\include\dbaseheader.h
+	<fstream>
+	<stdint.h>
+	<bitset>
+	<ctime>
+
+1478014043 source:d:\development\dbflib\src\dbasecoldef.cpp
+	"DBaseColDef.h"
+	<iostream>
+	<string>
+	<cstring>
+	<algorithm>
+
+1477172523 source:d:\development\dbflib\src\dbasefield.cpp
+	"DBaseField.h"
+
+1477172523 d:\development\dbflib\include\dbasefield.h
+
+1478020073 source:d:\development\dbflib\src\dbasefile.cpp
+	<iostream>
+	<fstream>
+	<stdexcept>
+	<bitset>
+	<ctime>
+	<iomanip>
+	<sstream>
+	"DBaseFile.h"
+	"DBaseColDef.h"
+	<windows.h>
+	<unistd.h>
+
+1478014043 source:d:\development\dbflib\src\dbaseheader.cpp
+	"DBaseHeader.h"
+	<fstream>
+	<iostream>
+	<bitset>
+
+1478023523 source:d:\development\dbflib\src\dbaserecord.cpp
+	"DBaseRecord.h"
+	<iostream>
+	<string>
+	<memory>
+

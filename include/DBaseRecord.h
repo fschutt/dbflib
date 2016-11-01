@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
 #include "DBaseColDef.h"
 
 //todo make template out of this class
@@ -17,8 +19,7 @@ class DBaseRecord
     protected:
 
     private:
-        std::string m_recordData = "";
-        bool m_recordDeleted = false;
+    	std::vector<std::shared_ptr<std::string>> m_recordData;
 };
 
 #endif // DBASERECORD_H
