@@ -15,19 +15,20 @@ class DBaseFile
         /**<Open file and get contents */
         bool openFile(const std::string fileName);
         /**<Open file and get contents */
-		void stat(){m_header.stat();};
+		void stat();
 
     private:
         /**< Read file header safely into std::string */
 		void readHeader(std::ifstream& iFile);
         /**< Read field columns */
-        void readColumns(std::ifstream& iFile, DBaseHeader& iFileHeader);
+        void readColDef(std::ifstream& iFile, DBaseHeader& iFileHeader);
         /**< Read records of file */
         void readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader);
         /**< Set block size depending on found block size: Either 48 Byte, 32 Byte or 16 Byte */
-        unsigned int calculateBlockSize(unsigned int& prev, unsigned int& totalStringSize);
+        inline void validateBlockSize(unsigned int& prev, unsigned int& totalStringSize);
+        /**< Get available memory from system */
+        inline unsigned long long getAvailableMemory();
 
-        unsigned long long getAvailableMemory();
 		/**< File size of .dbf file */
 		unsigned long long m_fileSize = 0;
 		/**< Memory available on system*/

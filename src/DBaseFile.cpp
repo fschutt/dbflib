@@ -25,7 +25,7 @@ bool DBaseFile::openFile(const std::string fileName){
 
     //open file and get file size
     std::ifstream iFile;
-    if(iFile.is_open()){ throw fileNotFoundEx("File is already open in another process."); }
+    if(!iFile && iFile.is_open()){ throw fileNotFoundEx("File is already open in another process."); }
     iFile.open(fileName, std::ifstream::ate | std::ifstream::binary);
     m_fileSize = (unsigned long long)iFile.tellg();
     iFile.seekg(0, iFile.beg);
@@ -37,86 +37,50 @@ bool DBaseFile::openFile(const std::string fileName){
 
     //Read file contents into heap memory
     readHeader(iFile);
-    //figure out block size for column definition
-    cout << "Number bytes in header from m_header" << m_header.m_numBytesInHeader << endl;
-    cout << "Length of file header from DBaseFile" << m_fileHeaderLength << endl;
-    cout << "Column definition length from DBaseFile" << m_colDefLength << endl;
-    cout << "Column block size from DBaseFile" << m_colDefBlockSize << endl;
 
-    m_colDefLength = m_header.m_numBytesInHeader - m_totalHeaderLength;
-    m_colDefBlockSize = calculateBlockSize(m_colDefBlockSize, m_colDefLength);
-
+    //Check header
+    m_colDefLength = m_header.m_numBytesInHeader - m_totalHeaderLength -1;
+    validateBlockSize(m_colDefBlockSize, m_colDefLength);
     if(!(m_headerData.empty())){ m_header.parse(m_headerData);}
-    m_colDefBlockSize = calculateBlockSize(m_colDefBlockSize, m_colDefLength);
+    validateBlockSize(m_colDefBlockSize, m_colDefLength);
 
-    readColumns(iFile, m_header);
+    //Read rest of file
+    readColDef(iFile, m_header);
     readRecords(iFile, m_header);
-
-    std::cout << "Here all all column definitions:\n\n" << std::endl;
-    for(DBaseColDef& i : m_colDef){
-        std::cout << i.fieldName << std::endl;
-        std::cout << i.fieldDecCount << std::endl;
-        std::cout << i.fieldLength << std::endl;
-        std::cout << i.fieldType << std::endl;
-    }
-    std::cout << std::endl;
 
     iFile.close();
 
     return true;
 }
 
-/** \brief Helper function to safely get
- *
- * \param Input File to get File from
- * \throw unexpectedHeaderEx
- * \throw noMemoryAvailableEx
- * \throw badFileEx
- * \return File contents as std::string
- */
+///Read header
 void DBaseFile::readHeader(std::ifstream& iFile){
-	std::string tempHeader;
-
-    //if(!(tempHeaderSS.good())){ throw noMemoryAvailableEx(); };
-
-	try{
-        iFile.exceptions(std::ios::badbit);
-        //copy into tempHeaderSS
-        for(unsigned int i = 0; i < m_fileHeaderLength; i++){
-            tempHeader.append(1, iFile.get());
-        }
-
-	}catch(const ios_base::failure& e){
-        throw badFileEx(e.what());
-	}
-
-	std::cout << tempHeader << std::endl;
-	m_header.parse(tempHeader);
+    iFile.seekg(0, iFile.beg);
+    std::string headerBuf(m_fileHeaderLength,' ');
+    iFile.read(&headerBuf.at(0), m_fileHeaderLength);
+	m_header.parse(headerBuf);
 }
 
-///Read Columns
-void DBaseFile::readColumns(std::ifstream& iFile, DBaseHeader& iFileHeader){
-    std::cout << "Reading columns..." << std::endl;
-    //go to end of header (usually 32 Bytes from file beginning)
-    std::cout << "Now at position" << iFile.tellg() << std::endl;
-    std::string* recordBuf = new std::string((m_fileSize + iFileHeader.m_numBytesInHeader), ' ');
-    iFile.read(&(recordBuf->at(0)), (m_fileSize - iFileHeader.m_numBytesInHeader));
+///Read column definition
+void DBaseFile::readColDef(std::ifstream& iFile, DBaseHeader& iFileHeader){
+    //omit terminating byte at header end
+    unsigned int headerLengthWOTerminatingChar = iFileHeader.m_numBytesInHeader - 1;
+    iFile.seekg((m_fileHeaderLength), iFile.beg);
+    std::string* colDefBuf = new std::string((headerLengthWOTerminatingChar - m_fileHeaderLength), ' ');
+    iFile.read(&(colDefBuf->at(0)), (headerLengthWOTerminatingChar - m_fileHeaderLength));
 
     //for each record
-    for(unsigned int i = 0; i < recordBuf->size(); i+=iFileHeader.m_numBytesInRecord){
-        std::string curRecordStr = recordBuf->substr(i, iFileHeader.m_numBytesInRecord);
-        DBaseRecord* record = new DBaseRecord(curRecordStr, m_colDef);
-        m_records.push_back(record);
+    for(unsigned int i = 0; i < colDefBuf->size(); i+=m_colDefBlockSize){
+        std::string curColDefStr = colDefBuf->substr(i, m_colDefBlockSize);
+        DBaseColDef colDef(curColDefStr);
+        m_colDef.push_back(colDef);
     }
 }
 
-///Read Records
+///Read records (based on header and column definition)
 void DBaseFile::readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader){
-    std::cout << "Reading records..." << std::endl;
-    //go to end of header (usually 32 Bytes from file beginning)
     iFile.seekg(m_header.m_numBytesInHeader);
-    std::cout << "Now at position" << iFile.tellg() << std::endl;
-    std::string* recordBuf = new std::string((m_fileSize + iFileHeader.m_numBytesInHeader), ' ');
+    std::string* recordBuf = new std::string((m_fileSize - iFileHeader.m_numBytesInHeader), ' ');
     iFile.read(&(recordBuf->at(0)), (m_fileSize - iFileHeader.m_numBytesInHeader));
 
     //for each record
@@ -127,8 +91,8 @@ void DBaseFile::readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader){
     }
 }
 
-unsigned long long DBaseFile::getAvailableMemory()
-{
+///Get free memory from OS
+inline unsigned long long DBaseFile::getAvailableMemory(){
     #if defined(_WIN32)
         MEMORYSTATUSEX status;
         status.dwLength = sizeof(status);
@@ -141,17 +105,28 @@ unsigned long long DBaseFile::getAvailableMemory()
     #endif // defined
 }
 
-//NOTE: Function will probably return the wrong result on an even number of columns
-unsigned int DBaseFile::calculateBlockSize(unsigned int& prev, unsigned int& totalStringSize){
-    if(prev >= 16){
-        unsigned int next = prev - 16;
-        if(totalStringSize % prev != 0){
-            //lines up
-            return prev;
-        }else{
-            return calculateBlockSize(next, totalStringSize);
-        }
-    }else{
+///Check if sane block size for column definition
+inline void DBaseFile::validateBlockSize(unsigned int& blockSize, unsigned int& totalStringSize){
+    if(totalStringSize % blockSize != 0){
         throw unexpectedHeaderEndEx("Header has an unknown number of columns");
     }
+}
+///Nice formatting for console output
+void DBaseFile::stat(){
+    std::cout << std::endl;
+    std::cout << "========== FILE INFORMATION ==========" << std::endl;
+    std::cout << std::endl;
+    m_header.stat();
+    std::cout << std::endl;
+    std::cout << "========= COLUMN INFORMATION =========" << std::endl;
+    std::cout << std::endl;
+    for(DBaseColDef d : m_colDef){
+            d.stat();
+    }
+    std::cout << std::endl;
+    std::cout << "========= RECORD INFORMATION =========" << std::endl;
+    for(DBaseRecord* r : m_records){
+            r->stat();
+    }
+    std::cout << std::endl;
 }

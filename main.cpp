@@ -7,14 +7,14 @@ using namespace std;
 
 int main()
 {
-    DBaseFile dbf;
+    DBaseFile* dbf = new DBaseFile();
     //See SHBrowseForFolder, GetOpenFileName
     try{
-        dbf.openFile("./test/ANSPRECH.DBF");
+        dbf->openFile("./test/ANSPRECH.DBF");
     }catch(std::runtime_error& e){
         std::cout << e.what() << std::endl;
     }
 
-    dbf.stat();
+    dbf->stat();
     return 0;
 }

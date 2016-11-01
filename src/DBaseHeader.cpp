@@ -98,9 +98,8 @@ void DBaseHeader::parse(std::string& headerData){
 void DBaseHeader::stat()
 {
     ///DEBUG STATEMENTS BEGIN
-    std::cout << std::endl;
     std::cout << m_fileType << std::endl;
-    std::cout << "Header with length " << m_numBytesInHeader << " bytes contains " << m_fieldDescArrayNum << " field descriptor arrays!"  << std::endl;
+    std::cout << "Header length:\t\t\t\t" << m_numBytesInHeader << " bytes" << std::endl;
 
     std::cout << "Has memo field:\t\t\t\t";
     std::cout << (m_hasMemoField ? "YES" : "NO") << std::endl;

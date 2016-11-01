@@ -20,11 +20,10 @@ class DBaseHeader
         bool m_hasStructuralCDX = false;
 		bool m_hasMemoField = false;
 		bool m_isDatabase =  false;
-		uint8_t m_fieldDescArrayNum = 0;
 		uint8_t m_codePageMark = 0;
 
-        std::string m_fileType;
-        char m_firstByte;                       ///BYPTE 0 temporary storage, c++ can only read bytes
+        std::string m_fileType = "";
+        char m_firstByte = 0;                   ///BYPTE 0 temporary storage, c++ can only read bytes
             uint16_t m_versionNr = 3;           ///BYTE 0 bit 0-2 version number of file
             bool m_memoFilePresent = false;     ///BYTE 0 bit 3 is a memo present or not
             bool m_sqlFilePresent = false;      ///BYTE 0 bit 4-6 is a .sql file present or not

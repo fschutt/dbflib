@@ -7,12 +7,23 @@ DBaseRecord::DBaseRecord()
     //ctor
 }
 
-DBaseRecord::DBaseRecord(std::string& recordStr, std::vector<DBaseColDef>& iFileColDef)
+DBaseRecord::DBaseRecord(std::string& recordStr, std::vector<DBaseColDef>& colDef)
 {
-    std::cerr << recordStr << std::endl << std::endl;
+    for(DBaseColDef column : colDef){
+        std::cout << recordStr.substr(column.m_fieldLength) << std::endl;
+    }
+    //std::cout << recordStr << std::endl;
 }
 
 DBaseRecord::~DBaseRecord()
 {
     //dtor
 }
+
+void DBaseRecord::stat()
+{
+    if(!m_recordDeleted){
+        std::cout << m_recordData << std::endl;
+    }
+}
+
