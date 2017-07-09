@@ -12,9 +12,9 @@
 class DBaseFile
 {
     public:
-        /**<Open file and get contents */
+        /**< Open file and get contents */
         bool openFile(const std::string fileName);
-        /**<Open file and get contents */
+        /**< Open file and get contents */
 		void stat();
 
     private:

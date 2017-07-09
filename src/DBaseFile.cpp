@@ -112,6 +112,7 @@ inline void DBaseFile::validateBlockSize(unsigned int& blockSize, unsigned int& 
         throw unexpectedHeaderEndEx("Header has an unknown number of columns");
     }
 }
+
 ///Nice formatting for console output
 void DBaseFile::stat(){
     std::cout << std::endl;

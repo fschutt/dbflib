@@ -7,10 +7,6 @@ class DBaseFieldProperty
 	public:
 		DBaseFieldProperty();
 		virtual ~DBaseFieldProperty();
-
-	protected:
-
-	private:
 };
 
 #endif // DBASEFIELDPROPERTY_H

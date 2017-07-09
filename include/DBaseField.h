@@ -19,8 +19,6 @@ class DBaseField
 //            NUMERIC = N;
 //        };
 
-    protected:
-
     private:
         char fieldNameASCII[11];        //name of the field (?)
         char fieldType;                 //Field type of DB field
