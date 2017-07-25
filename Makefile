@@ -1,12 +1,26 @@
-CC = g++
-CFLAGS = -O3 -Wall -Werror 
-INC=-I ./include/ 
-CXXFLAGS = $(CFLAGS) $(INC) -o main
-SRCS = $(wildcard src/*.cpp)
-PROGS = $(patsubst %.cpp,%,$(SRCS))
+# C/C++ mixed object makefile
+CXX=g++
+CXXFLAGS=-s -fPIC -std=c++11 -O3
+DEBUG=-g -Wall -Wextra
+LDFLAGS=-lm -lstdc++
 
-all: $(PROGS)
-	$(CC) $(CFLAGS)
+SRC=src
+INC=include
+OBJ=obj
+EXT=c cc cxx cpp c++ C
+INPUT=$(wildcard $(patsubst %,$(SRC)/*.%, $(EXT)))
+OBJECT=$(patsubst %,$(OBJ)/%.o, $(notdir $(basename $(INPUT))))
+OUTPUT=libdbf.so
 
-clean: 
-	rm -f $(PROGS)
+.PHONY: all clean fclean re
+
+all: $(OUTPUT)
+
+$(OUTPUT): $(OBJECT)
+	$(LINK.cc) -shared $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+$(OBJ)/%.o: $(SRC)/%.* $(wildcard $(INC)/*.h)
+	@mkdir -p $(OBJ)
+	$(CXX) $(CXXFLAGS) $(DEBUG) -I$(INC) -o $@ -c $<
+clean:
+	rm -rf $(OUTPUT) $(OBJ)/

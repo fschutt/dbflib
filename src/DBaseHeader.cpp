@@ -7,7 +7,7 @@ void DBaseHeader::parse(std::string& headerData){
 
     //Temporary variables
     unsigned char currentByte;
-    struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0};
+    struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0,0,""};
 
     //TODO: read file into m_headerData
     for(unsigned int i = 0; i < headerData.size(); i++){
