@@ -4,9 +4,9 @@
 
 class DBaseFieldProperty
 {
-	public:
-		DBaseFieldProperty();
-		virtual ~DBaseFieldProperty();
+    public:
+        DBaseFieldProperty();
+        virtual ~DBaseFieldProperty();
 };
 
 #endif // DBASEFIELDPROPERTY_H

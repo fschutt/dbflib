@@ -8,6 +8,7 @@
 
 #include "DBaseFile.h"
 #include "DBaseColDef.h"
+
 #if defined(_WIN32)
     #define WINVER 0x0500
     #include <windows.h>
@@ -58,7 +59,7 @@ void DBaseFile::readHeader(std::ifstream& iFile){
     iFile.seekg(0, iFile.beg);
     std::string headerBuf(m_fileHeaderLength,' ');
     iFile.read(&headerBuf.at(0), m_fileHeaderLength);
-	m_header.parse(headerBuf);
+    m_header.parse(headerBuf);
 }
 
 ///Read column definition

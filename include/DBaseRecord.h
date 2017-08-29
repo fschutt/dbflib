@@ -19,7 +19,7 @@ class DBaseRecord
     protected:
 
     private:
-    	std::vector<std::shared_ptr<std::string>> m_recordData;
+        std::vector<std::shared_ptr<std::string>> m_recordData;
 };
 
 #endif // DBASERECORD_H

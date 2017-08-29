@@ -15,11 +15,11 @@ class DBaseFile
         /**< Open file and get contents */
         bool openFile(const std::string fileName);
         /**< Open file and get contents */
-		void stat();
+        void stat();
 
     private:
         /**< Read file header safely into std::string */
-		void readHeader(std::ifstream& iFile);
+        void readHeader(std::ifstream& iFile);
         /**< Read field columns */
         void readColDef(std::ifstream& iFile, DBaseHeader& iFileHeader);
         /**< Read records of file */
@@ -29,27 +29,27 @@ class DBaseFile
         /**< Get available memory from system */
         inline unsigned long long getAvailableMemory();
 
-		/**< File size of .dbf file */
-		unsigned long long m_fileSize = 0;
-		/**< Memory available on system*/
-		unsigned long long m_memAvailable = 0;
-		/**< File header length in bytes */
-		unsigned int m_fileHeaderLength = 32;
-		/**< Column definition structure length in bytes */
-		unsigned int m_colDefLength = 0;
-		/**< Column definition block size (per column definition) length in bytes */
-		unsigned int m_colDefBlockSize = 32;
-		/**< Total header size (fileHeader + column definition definition) */
-		unsigned int m_totalHeaderLength = 0;
+        /**< File size of .dbf file */
+        unsigned long long m_fileSize = 0;
+        /**< Memory available on system*/
+        unsigned long long m_memAvailable = 0;
+        /**< File header length in bytes */
+        unsigned int m_fileHeaderLength = 32;
+        /**< Column definition structure length in bytes */
+        unsigned int m_colDefLength = 0;
+        /**< Column definition block size (per column definition) length in bytes */
+        unsigned int m_colDefBlockSize = 32;
+        /**< Total header size (fileHeader + column definition definition) */
+        unsigned int m_totalHeaderLength = 0;
         /**< Header contents (read raw from disk)*/
-		std::string m_headerData = "";
+        std::string m_headerData = "";
 
-		/**< \section Member variables */
-		/**< Header structure */
-		DBaseHeader m_header;
-		/**< Column defintion / field descriptors / subrecord structure */
+        /**< \section Member variables */
+        /**< Header structure */
+        DBaseHeader m_header;
+        /**< Column defintion / field descriptors / subrecord structure */
         std::vector<DBaseColDef> m_colDef;
-		/**< Data records in the file */
+        /**< Data records in the file */
         std::vector<DBaseRecord*> m_records;
 };
 
@@ -75,9 +75,9 @@ public:
 /**< \brief     Header is corrupt, 0x0D encountered too early*/
 class unexpectedHeaderEndEx : public std::exception{
 protected:
-	std::string m_defaultErrorStr;
-	unsigned int m_byteHeaderFailed = 0;
-	bool m_isFoxBaseHeader = false;
+    std::string m_defaultErrorStr;
+    unsigned int m_byteHeaderFailed = 0;
+    bool m_isFoxBaseHeader = false;
 public:
     unexpectedHeaderEndEx(std::string errorStr = "Unexpected header termination",
                           unsigned int byteWhenFailed = 0,
@@ -92,7 +92,7 @@ public:
 /**< \brief     File could not be opened*/
 class badFileEx : public std::exception{
 protected:
-	std::string m_defaultErrorStr;
+    std::string m_defaultErrorStr;
 public:
     badFileEx(std::string errorStr = "Unexpected error when opening file")
               : m_defaultErrorStr(errorStr){};

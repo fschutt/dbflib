@@ -50,13 +50,13 @@ void DBaseHeader::parse(std::string& headerData){
                     if(currentByte == 0xFB){m_fileType = "FoxBASE (with memo?)";};
                     break;
                 }
-                case 1:{	//Last opened: year
+                case 1:{    //Last opened: year
                     fileLastUpdated.tm_year = ((int)currentByte + 100);
                     break;
-                }case 2:{	//Last opened: month
+                }case 2:{   //Last opened: month
                     fileLastUpdated.tm_mon = (((int)currentByte) - 1);
                     break;
-                }case 3:{	//Last opened: day
+                }case 3:{   //Last opened: day
                     fileLastUpdated.tm_mday = (int)currentByte;
                     break;
                 }case 4: case 5: case 6: case 7:{ //Number of records in table
@@ -87,7 +87,7 @@ void DBaseHeader::parse(std::string& headerData){
             }
 
         }
-    }//end for loop read header
+    } //end for loop read header
 
     //Postfix: convert fileLastUpdated to lastUpdated time type
     m_lastUpdated = mktime(&fileLastUpdated);

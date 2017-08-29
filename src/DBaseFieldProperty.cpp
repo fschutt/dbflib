@@ -2,10 +2,10 @@
 
 DBaseFieldProperty::DBaseFieldProperty()
 {
-	//ctor
+    //ctor
 }
 
 DBaseFieldProperty::~DBaseFieldProperty()
 {
-	//dtor
+    //dtor
 }
