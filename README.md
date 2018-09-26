@@ -4,22 +4,17 @@ Library for reading .dbf files
 
 ## Usage
 
-```
+```cpp
+#include "DBaseFile.h"
 #include <iostream>
-#include <stdexcept>
-#include <memory>
 
-#include "dbflib/DBaseFile.h"
+int main() {
 
-using namespace std;
+    DBaseFile dbf = DBaseFile();
 
-int main()
-{
-    std::shared_ptr<DBaseFile> dbf = std::make_shared<DBaseFile>(DBaseFile());
-
-    try{
+    try {
         dbf->openFile("./test/ANSPRECH.DBF");
-    }catch(std::runtime_error& e){
+    } catch(std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
