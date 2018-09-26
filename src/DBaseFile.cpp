@@ -88,8 +88,7 @@ void DBaseFile::readRecords(std::ifstream& iFile, DBaseHeader& iFileHeader){
     //for each record
     for(unsigned int i = 0; i < recordBuf->size(); i+=iFileHeader.m_numBytesInRecord){
         std::string curRecordStr = recordBuf->substr(i, iFileHeader.m_numBytesInRecord);
-        DBaseRecord* record = new DBaseRecord(curRecordStr, m_colDef);
-        m_records.push_back(record);
+        m_records.push_back(DBaseRecord(curRecordStr, m_colDef));
     }
 }
 
@@ -128,8 +127,8 @@ void DBaseFile::stat(){
     }
     std::cout << std::endl;
     std::cout << "========= RECORD INFORMATION =========" << std::endl;
-    for(DBaseRecord* r : m_records){
-            r->stat();
+    for(DBaseRecord& r : m_records){
+            r.stat();
     }
     std::cout << std::endl;
 }

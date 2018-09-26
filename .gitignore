@@ -54,3 +54,4 @@ test/*
 *.o
 *.save
 *.dbf
+*.so

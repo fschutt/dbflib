@@ -50,7 +50,7 @@ class DBaseFile
         /**< Column defintion / field descriptors / subrecord structure */
         std::vector<DBaseColDef> m_colDef;
         /**< Data records in the file */
-        std::vector<DBaseRecord*> m_records;
+        std::vector<DBaseRecord> m_records;
 };
 
 /**< \section   Exceptions */
