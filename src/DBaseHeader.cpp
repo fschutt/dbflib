@@ -3,22 +3,22 @@
 #include <iostream>
 #include <bitset>
 
-void DBaseHeader::parse(std::string& headerData){
+void DBaseHeader::parse(std::string& headerData) {
 
     //Temporary variables
     unsigned char currentByte;
     struct tm fileLastUpdated = {0,0,0,0,0,0,0,0,0,0,""};
 
     //TODO: read file into m_headerData
-    for(unsigned int i = 0; i < headerData.size(); i++){
+    for(unsigned int i = 0; i < headerData.size(); i++) {
         currentByte = headerData.at(i);
 
         //Read file header bit by bit. Spec of DBF files available at:
         //http://www.dbf2002.com/dbf-file-format.html
-        if(currentByte == 0x0D){break;}
+        if(currentByte == 0x0D) {break;}
 
-        if(i < m_blockSize){
-            switch(i){
+        if(i < m_blockSize) {
+            switch(i) {
                 case 0:{
                     std::bitset<8> firstBitset = toBits(currentByte);
 
@@ -30,24 +30,24 @@ void DBaseHeader::parse(std::string& headerData){
                     //There is some system to this (the memo and SQL part), but the version numbers are rather
                     //random. DO NOT BELIEVE the "official" dBase documentation. This information is based on
                     //http://stackoverflow.com/questions/3391525/which-header-format-can-be-assumed-by-reading-an-initial-dbf-byte
-                    if(currentByte == 0x01){m_fileType = "not used";};
-                    if(currentByte == 0x02){m_fileType = "FoxBASE";};
-                    if(currentByte == 0x03){m_fileType = "FoxBASE+/dBASE III PLUS, no memo";};
-                    if(currentByte == 0x04){m_fileType = "dBASE 7";};
-                    if(currentByte == 0x05){m_fileType = "dBASE 5, no memo";};
-                    if(currentByte == 0x30){m_fileType = "Visual FoxPro";};
-                    if(currentByte == 0x31){m_fileType = "Visual FoxPro, autoincrement enabled";};
-                    if(currentByte == 0x32){m_fileType = "Visual FoxPro, Varchar, Varbinary, or Blob-enabled";};
-                    if(currentByte == 0x43){m_fileType = "dBASE IV SQL table files, no memo";};
-                    if(currentByte == 0x63){m_fileType = "dBASE IV SQL system files, no memo";};
-                    if(currentByte == 0x7B){m_fileType = "dBASE IV, with memo";};
-                    if(currentByte == 0x83){m_fileType = "FoxBASE+/dBASE III PLUS, with memo";};
-                    if(currentByte == 0x8B){m_fileType = "dBASE IV, with memo";};
-                    if(currentByte == 0x8E){m_fileType = "dBASE IV with SQL table";};
-                    if(currentByte == 0xCB){m_fileType = "dBASE IV SQL table files, with memo";};
-                    if(currentByte == 0xE5){m_fileType = "Clipper SIX driver, with SMT memo";};
-                    if(currentByte == 0xF5){m_fileType = "FoxPro 2.x (or earlier) with memo";};
-                    if(currentByte == 0xFB){m_fileType = "FoxBASE (with memo?)";};
+                    if(currentByte == 0x01) {m_fileType = "not used";};
+                    if(currentByte == 0x02) {m_fileType = "FoxBASE";};
+                    if(currentByte == 0x03) {m_fileType = "FoxBASE+/dBASE III PLUS, no memo";};
+                    if(currentByte == 0x04) {m_fileType = "dBASE 7";};
+                    if(currentByte == 0x05) {m_fileType = "dBASE 5, no memo";};
+                    if(currentByte == 0x30) {m_fileType = "Visual FoxPro";};
+                    if(currentByte == 0x31) {m_fileType = "Visual FoxPro, autoincrement enabled";};
+                    if(currentByte == 0x32) {m_fileType = "Visual FoxPro, Varchar, Varbinary, or Blob-enabled";};
+                    if(currentByte == 0x43) {m_fileType = "dBASE IV SQL table files, no memo";};
+                    if(currentByte == 0x63) {m_fileType = "dBASE IV SQL system files, no memo";};
+                    if(currentByte == 0x7B) {m_fileType = "dBASE IV, with memo";};
+                    if(currentByte == 0x83) {m_fileType = "FoxBASE+/dBASE III PLUS, with memo";};
+                    if(currentByte == 0x8B) {m_fileType = "dBASE IV, with memo";};
+                    if(currentByte == 0x8E) {m_fileType = "dBASE IV with SQL table";};
+                    if(currentByte == 0xCB) {m_fileType = "dBASE IV SQL table files, with memo";};
+                    if(currentByte == 0xE5) {m_fileType = "Clipper SIX driver, with SMT memo";};
+                    if(currentByte == 0xF5) {m_fileType = "FoxPro 2.x (or earlier) with memo";};
+                    if(currentByte == 0xFB) {m_fileType = "FoxBASE (with memo?)";};
                     break;
                 }
                 case 1:{    //Last opened: year
@@ -76,9 +76,9 @@ void DBaseHeader::parse(std::string& headerData){
                     break;
                 }case 28:{
                     std::bitset<8> bit28 = toBits(currentByte);
-                    if(bit28[0]){m_hasStructuralCDX = true;};
-                    if(bit28[1]){m_hasMemoField = true;};
-                    if(bit28[2]){m_isDatabase = true;};
+                    if(bit28[0]) {m_hasStructuralCDX = true;};
+                    if(bit28[1]) {m_hasMemoField = true;};
+                    if(bit28[2]) {m_isDatabase = true;};
                     break;
                 }case 29:{
                     m_codePageMark = (uint8_t)currentByte;
@@ -124,6 +124,6 @@ void DBaseHeader::stat()
  * \param {char} 8-Bit char
  * \return {bitset} exploded byte into arrays
  */
-std::bitset<8> DBaseHeader::toBits(const char& byte){
+std::bitset<8> DBaseHeader::toBits(const char& byte) {
     return std::bitset<8>(byte);
 }

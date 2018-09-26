@@ -7,9 +7,8 @@
 #include <ctime>
 
 /**< Level 7 DOS Header for dBase III - dBase VII files */
-class DBaseHeader
+struct DBaseHeader
 {
-    public:
         void parse(std::string& headerData);
         void stat();
 
@@ -20,11 +19,13 @@ class DBaseHeader
         uint8_t m_codePageMark = 0;
 
         std::string m_fileType = "";
+
         char m_firstByte = 0;                   /// BYTE 0 temporary storage, c++ can only read bytes
-            uint16_t m_versionNr = 3;               /// BYTE 0 bit 0-2 version number of file
-            bool m_memoFilePresent = false;         /// BYTE 0 bit 3 is a memo present or not
-            bool m_sqlFilePresent = false;          /// BYTE 0 bit 4-6 is a .sql file present or not
-            bool m_anyMemoFilePresent = false;      /// BYTE 0 bit 7 is one of the above true
+        uint16_t m_versionNr = 3;               /// BYTE 0 bit 0-2 version number of file
+        bool m_memoFilePresent = false;         /// BYTE 0 bit 3 is a memo present or not
+        bool m_sqlFilePresent = false;          /// BYTE 0 bit 4-6 is a .sql file present or not
+        bool m_anyMemoFilePresent = false;      /// BYTE 0 bit 7 is one of the above true
+
         time_t m_lastUpdated = time(0);         /// BYTE 1-3 YYMMDD format
         unsigned int m_numRecordsInDB = 0;      /// BYTE 4-7 32-bit nr of records
         unsigned int m_numBytesInHeader = 0;    /// BYTE 8-9 16 bit nr of bytes in header

@@ -9,14 +9,12 @@
 
 //todo make template out of this class
 //for int, char, double, etc.
-class DBaseRecord
+struct DBaseRecord
 {
-    public:
-        DBaseRecord();
-        DBaseRecord(std::string& recordStr, std::vector<DBaseColDef>& iFileColDef);
-        ~DBaseRecord();
-        void stat();
-    protected:
+    DBaseRecord();
+    DBaseRecord(std::string& recordStr, std::vector<DBaseColDef>& iFileColDef);
+    ~DBaseRecord();
+    void stat();
 
     private:
         std::vector<std::shared_ptr<std::string>> m_recordData;

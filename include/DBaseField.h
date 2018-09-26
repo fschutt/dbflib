@@ -2,27 +2,15 @@
 #define DBASEFIELD_H
 
 
-class DBaseField
+struct DBaseField
 {
-    public:
         DBaseField();
         ~DBaseField();
 
-        //Following is only for remebering the data types in dBase
-        //stored in fieldType
-//        enum DBASE_DATA_TYPE{
-//            CHARACTER = C;
-//            DATE = D;
-//            FLOATING_POINT = F;
-//            LOGICAL = L;
-//            MEMO = M;
-//            NUMERIC = N;
-//        };
-
     private:
-        char fieldNameASCII[11];        //name of the field (?)
-        char fieldType;                 //Field type of DB field
-        char fieldLength;               //Max: 254 (0xFE)
+        char fieldNameASCII[11];        // name of the field (?)
+        char fieldType;                 // Field type of DB field
+        char fieldLength;               // Max: 254 (0xFE)
         short fieldDecimalCount;
 
 

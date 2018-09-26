@@ -9,13 +9,20 @@
 #include "DBaseHeader.h"
 #include "DBaseRecord.h"
 
-class DBaseFile
+struct DBaseFile
 {
-    public:
         /**< Open file and get contents */
         bool openFile(const std::string fileName);
         /**< Open file and get contents */
         void stat();
+
+        /**< \section Member variables */
+        /**< Header structure */
+        DBaseHeader m_header;
+        /**< Column defintion / field descriptors / subrecord structure */
+        std::vector<DBaseColDef> m_colDef;
+        /**< Data records in the file */
+        std::vector<DBaseRecord> m_records;
 
     private:
         /**< Read file header safely into std::string */
@@ -43,19 +50,11 @@ class DBaseFile
         unsigned int m_totalHeaderLength = 0;
         /**< Header contents (read raw from disk)*/
         std::string m_headerData = "";
-
-        /**< \section Member variables */
-        /**< Header structure */
-        DBaseHeader m_header;
-        /**< Column defintion / field descriptors / subrecord structure */
-        std::vector<DBaseColDef> m_colDef;
-        /**< Data records in the file */
-        std::vector<DBaseRecord> m_records;
 };
 
 /**< \section   Exceptions */
 /**< \brief     There is not enough memory available on the target computer */
-class noMemoryAvailableEx : public std::exception{
+class noMemoryAvailableEx : public std::exception {
     std::string m_defaultErrorStr;
 public:
     noMemoryAvailableEx(std::string errorStr = "Out of memory") : m_defaultErrorStr(errorStr){};
@@ -64,7 +63,7 @@ public:
 };
 
 /**< \brief     File could not be found or user has no access to file */
-class fileNotFoundEx : public std::exception{
+class fileNotFoundEx : public std::exception {
     std::string m_defaultErrorStr;
 public:
     fileNotFoundEx(std::string errorStr = "File could not be opened") : m_defaultErrorStr(errorStr){};
@@ -73,7 +72,7 @@ public:
 };
 
 /**< \brief     Header is corrupt, 0x0D encountered too early*/
-class unexpectedHeaderEndEx : public std::exception{
+class unexpectedHeaderEndEx : public std::exception {
 protected:
     std::string m_defaultErrorStr;
     unsigned int m_byteHeaderFailed = 0;
@@ -90,7 +89,7 @@ public:
 };
 
 /**< \brief     File could not be opened*/
-class badFileEx : public std::exception{
+class badFileEx : public std::exception {
 protected:
     std::string m_defaultErrorStr;
 public:
@@ -101,7 +100,7 @@ public:
 };
 
 /**< \brief     Transaction is incomplete, meaning database is possibly corrupt.*/
-class incompleteTransactionEx : public badFileEx{
+class incompleteTransactionEx : public badFileEx {
 public:
     incompleteTransactionEx(std::string errorStr = "File transaction is incomplete")
                             : badFileEx(errorStr){};

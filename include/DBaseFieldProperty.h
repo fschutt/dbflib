@@ -2,11 +2,10 @@
 #define DBASEFIELDPROPERTY_H
 
 
-class DBaseFieldProperty
+struct DBaseFieldProperty
 {
-    public:
-        DBaseFieldProperty();
-        virtual ~DBaseFieldProperty();
+    DBaseFieldProperty();
+    virtual ~DBaseFieldProperty();
 };
 
 #endif // DBASEFIELDPROPERTY_H
